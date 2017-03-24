@@ -1,0 +1,4 @@
+[12-Mar-2017 21:51:54 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Auth' not found in /home/gotogether/public_html/app/Http/Controllers/MessageController.php on line 20
+[12-Mar-2017 22:38:11 UTC] PHP Parse error:  syntax error, unexpected 'offerRide' (T_STRING) in /home/gotogether/public_html/app/Http/Controllers/MessageController.php on line 46
+[12-Mar-2017 22:40:12 UTC] PHP Parse error:  syntax error, unexpected 'offerRide' (T_STRING) in /home/gotogether/public_html/app/Http/Controllers/MessageController.php on line 95
+[13-Mar-2017 05:15:50 UTC] PHP Parse error:  syntax error, unexpected '=' in /home/gotogether/public_html/app/Http/Controllers/MessageController.php on line 22

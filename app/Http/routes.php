@@ -16,7 +16,17 @@ Route::get('/', function () {
     //return view('welcome');
 });
 */
-Route::get('/','MessageController@index');
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('signup', function () {
+    return view('auth.register');
+});
+Route::get('signin', function () {
+    return view('auth.login');
+});
+//Route::get('/','MessageController@index');
+Route::get('/message','MessageController@index');
 Route::get('message/search','MessageController@search');
 Route::post('message/result','MessageController@result');
 

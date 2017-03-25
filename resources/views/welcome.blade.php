@@ -13,7 +13,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
-
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -23,7 +22,7 @@
     <!-- Just for debugging purposes. Dont actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
+    <script type='text/javascript' src="/js/all.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -45,14 +44,28 @@
           <a class="navbar-brand" href="#">GoTogether</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form method="get" action="signin" class="navbar-form navbar-right">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            
-            <button type="submit" class="btn btn-success">Sign in</button>            
-          </form>
-          <form method="get", action="signup" class="navbar-form navbar-right">
-            <button type="submit" class="btn btn-success">Sign up</button>
-          </form>
+          @if (Auth::guest())
+            <form method="get" action="signin" class="navbar-form navbar-right">
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-success">Sign in</button>            
+            </form>
+            <form method="get", action="signup" class="navbar-form navbar-right">
+              <button type="submit" class="btn btn-success">Sign up</button>
+            </form>
+          @else
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      {{ Auth::user()->name }} <span class="caret"></span>
+                  </a>
+
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                      <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                  </ul>
+              </li>
+            </ul>  
+          @endif
+          
           <form method="get", action="post" class="navbar-form navbar-right">
             <button type="submit" href="{{ action('MessageController@create') }}" class="btn btn-success">Post</button>
           </form>

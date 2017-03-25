@@ -13,7 +13,8 @@
    	</div>
     <div class="form-group">
         {!! Form::label('category','Category:') !!}
-        {!! Form::select('category',['offerRide' => 'Offer a Ride', 'requestRide' => 'Request a Ride'] ,null, 
+        {!! Form::select('category',['offerRide' => 'Offer a Ride', 'requestRide' => 'Request a Ride', 
+            'Mo' => 'Movie', 'Re' => 'Restaurant'] ,null, 
         		['class' => 'form-control', 'placeholder' => 'Please select a category']) !!}
     </div> 
     <div class="form-group" >

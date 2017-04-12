@@ -5,6 +5,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>GoTogether</title>
+
+        <link rel='stylesheet' href="/css/all.css" type='text/css' media='all'/>
+        <link rel='stylesheet' href="/css/bootstrap.min.css" type='text/css' media='all'/>
+        <link rel='stylesheet' href="/css/bootstrap-datepicker.css" type='text/css' media='all'/>
+        <link rel='stylesheet' href="/css/bootstrap-timepicker.css" type='text/css' media='all'/>
+        <!--
+        <script type='text/javascript' src="/js/all.js"></script>
+        <script type='text/javascript' src="/js/jquery.js"></script>
+        <script type='text/javascript' src="/js/bootstrap.min.js"></script>
+        <script type='text/javascript' src="/js/bootstrap-datepicker.js"></script>
+        <script type='text/javascript' src="/js/bootstrap-timepicker.js"></script>
+        -->
+        
         <link rel='stylesheet' href="/public/css/all.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/public/css/bootstrap.min.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/public/css/bootstrap-datepicker.css" type='text/css' media='all'/>
@@ -15,6 +28,7 @@
         <script type='text/javascript' src="/public/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="/public/js/bootstrap-datepicker.js"></script>
         <script type='text/javascript' src="/public/js/bootstrap-timepicker.js"></script>
+        
     </head>
     <body>
 

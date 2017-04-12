@@ -20,6 +20,7 @@ class CreateOfferRideTable extends Migration
             $table->time('time');
             $table->string('destination');
             $table->string('curLocation');
+            $table->string('coordinate');
             $table->integer('seatsNumber');
             $table->integer('userID');
         });

@@ -341,10 +341,14 @@ class MessageController extends Controller
 
     public function update(Requests\MessageRequest $request)
     {
-        DB::update('UPDATE messageOfferRide set destination = ?, content = ?, category = ?, date = ?, time = ?, seatsNumber = ?, curLocation = ? WHERE msgID = ?',
+        $inputLoc = $request->get('curLocation');
+        $loc = Mapper::location($inputLoc);
+        $coordinate = strval($loc->getLatitude()) . "," . strval($loc->getLongitude());
+
+        DB::update('UPDATE messageOfferRide set destination = ?, content = ?, category = ?, date = ?, time = ?, seatsNumber = ?, curLocation = ?, coordinate = ? WHERE msgID = ?',
             [
                 $request->get('destination'),$request->get('content'), $request->get('category'), $request->get('date'),
-                $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $request->get('msgID')
+                $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, $request->get('msgID')
             ]);
        /* $matchUserPair = DB::select('SELECT m1.userID AS provider, m2.userID AS requester FROM messageOfferRide m1 JOIN messageOfferRide m2 ON m1.destination = m2.destination
                         WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber',['offerRide','requestRide']);

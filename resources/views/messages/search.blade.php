@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layoutsapp')
 @section('content')
     <h1>Start a New Search</h1>
     {!! Form::open(['url'=>'message/result']) !!}

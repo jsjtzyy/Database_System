@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string( 'password' , 64 );
             $table->string( 'name' );
             $table->string( 'phoneNumber' );
+            $table->string( 'avatar' )->default('default.jpg');
         } );
     }
 

@@ -309,12 +309,15 @@ class MessageController extends Controller
 
     public function store(Requests\MessageRequest $request)
     {
+        $inputLoc = $request->get('curLocation');
+        $loc = Mapper::location($inputLoc);
+        $coordinate = strval($loc->getLatitude()) . "," . strval($loc->getLongitude());
 
         DB::insert('insert into messageOfferRide (destination, content, category, date, time, seatsNumber, curLocation, coordinate, userID) 
-            values (?, ?, ?, ?, ?, ?, ?, ?)',
+            values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $request->get('destination'), $request->get('content'), $request->get('category'),
-                $request->get('date'), $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), Auth::user()->id
+                $request->get('date'), $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, Auth::user()->id
             ]);
         if (Auth::check()) {
             return redirect('/');

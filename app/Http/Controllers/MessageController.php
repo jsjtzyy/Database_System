@@ -58,42 +58,43 @@ class MessageController extends Controller
             array(40.08, -88.24),
             array(40.09, -88.16)
             );
-        $clusterNum = 2;
-        $centers = array(
-            array(40.09, -88.26),
-            array(40.12, -88.23)
-            );
-        $iter = 2;
-        $pNum = count($locs);
-        for($i = 0; $i < $iter; ++$i){
-            $sets = array();
-            for($j = 0; $j < $pNum; ++$j){
-                $minDist = 1E10;
-                $minIndex = -1;
-                for($k = 0; $k < $clusterNum; $k++){
-                    $curDist = $this->distance($locs[$j], $centers[$k], 'M');
-                    if($curDist < $minDist){
-                        $minDist = $curDist;
-                        $minIndex = $k;
-                    }
-                }
-                $sets[$minIndex][] = $locs[$j]; // append
-            }
+        // $clusterNum = 2;
+        // $centers = array(
+        //     array(40.09, -88.26),
+        //     array(40.12, -88.23)
+        //     );
+        // $iter = 2;
+        // $pNum = count($locs);
+        // for($i = 0; $i < $iter; ++$i){
+        //     $sets = array();
+        //     for($j = 0; $j < $pNum; ++$j){
+        //         $minDist = 1E10;
+        //         $minIndex = -1;
+        //         for($k = 0; $k < $clusterNum; $k++){
+        //             $curDist = $this->distance($locs[$j], $centers[$k], 'M');
+        //             if($curDist < $minDist){
+        //                 $minDist = $curDist;
+        //                 $minIndex = $k;
+        //             }
+        //         }
+        //         $sets[$minIndex][] = $locs[$j]; // append
+        //     }
 
-            for($k = 0; $k < $clusterNum; $k++){
-                $xSum = 0; $ySum = 0;
-                $arr = $sets[$k];
-                foreach ( $arr as $point) {
-                    $xSum += $point[0];
-                    $ySum += $point[1];
-                }
-                $total = count($sets[$k]);
-                $centers[$k] = array($xSum/$total, $ySum/$total);
-            }
-        }
+        //     for($k = 0; $k < $clusterNum; $k++){
+        //         $xSum = 0; $ySum = 0;
+        //         $arr = $sets[$k];
+        //         foreach ( $arr as $point) {
+        //             $xSum += $point[0];
+        //             $ySum += $point[1];
+        //         }
+        //         $total = count($sets[$k]);
+        //         $centers[$k] = array($xSum/$total, $ySum/$total);
+        //     }
+        // }
         //echo "<pre>"; print_r($centers); 
         //print_r($sets); echo "</pre>";
-        return array($sets, $centers);
+        return $locs;
+        //return array($sets, $centers);
     }
 
     public function getDistance(){  // Kruscal MST Alogrithm
@@ -216,7 +217,6 @@ class MessageController extends Controller
             //         'eventAfterLoad' => 'styleMap(maps[0].map);'
             //     ]
             // );
-            
           return view('messages.index',compact('messages', 'matchUserPairs'));//, 'matchUserPairs'
         } else {
           return view('auth.login');
@@ -224,7 +224,7 @@ class MessageController extends Controller
     }
 
     public function analysis(){
-        $sets = $this->cluster();
+        $locs = $this->cluster();
         $res = $this->getDistance();
         $path = $this -> TSP($res);
         Mapper::map(
@@ -239,7 +239,7 @@ class MessageController extends Controller
             ]
         );
 
-        return view('messages.analysis',compact('res', 'sets','path'));//
+        return view('messages.analysis',compact('res', 'locs','path'));//
     }
 
     public function search()

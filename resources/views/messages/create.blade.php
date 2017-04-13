@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <h1>Create a New Post</h1>
     {!! Form::open(['url'=>'message/store']) !!}
 
@@ -34,7 +35,7 @@
     </div>
     <div class="form-group">
         {!! Form::label('curLocation','Current Location:') !!}
-        {!! Form::text('curLocation',null,['class'=>'form-control']) !!}
+        {!! Form::text('curLocation', $curLocation,['class'=>'form-control']) !!}
     </div>
    	<div class="form-group">
        {!! Form::submit('SUBMIT',['class'=>'btn btn-success form-control']) !!}
@@ -49,6 +50,62 @@
             @endforeach
         </ul>
     @endif
-    <a class="more-link-custom" href="/"><span><i>CANCEL</i></span></a>
+    <a class="more-link-custom" href="/dashboard"><span><i>CANCEL</i></span></a>
+    <div align="center">
+      <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
+    </div>
 
+
+<button type="button" onclick="window.location='{{ url("message/createIP") }}'">Use your location</button>
+
+
+{!! Form::open(['url'=>'message/createIII']) !!}
+{!! Form::text('data', '', array('id' => 'data')) !!}
+{!! Form::submit('Update', array('class'=>'send-btn')) !!}
+{!! Form::close() !!}
+
+
+ <!-- ************************************************************ -->
+<script type="text/javascript">
+
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+var res = null;
+function listenMap(map){
+  var data = <?php echo json_encode($loc, JSON_HEX_TAG); ?>;
+  if(data != null){
+     map.markers = new google.maps.Marker({
+        position: new google.maps.LatLng(data[0],data[1]), 
+        map: map,
+        draggable:true
+    });
+    //marker.setMap(map);
+  }
+  google.maps.event.addListener(map, 'click', function(event) {
+    if(map.markers == null){
+
+       map.markers = new google.maps.Marker({
+           position: event.latLng, 
+           map: map,
+           draggable:true
+       });
+       res = map.markers.getPosition().toString();
+      console.log(res);
+      document.getElementById('data').setAttribute('value', res);
+      //document.getElementById('whatever-the-id-is').value = res;
+    }else{
+      map.markers.setPosition(event.latLng);
+      res = map.markers.getPosition().toString();
+      console.log(res);
+      document.getElementById('data').setAttribute('value', res);
+    }
+  });
+}
+
+</script>  
 @endsection

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 use Request;
+use Input;
+
 use Auth;
 use SplPriorityQueue;
 use Carbon\Carbon;
@@ -191,7 +193,7 @@ class MessageController extends Controller
                 }
             }
         }
-        echo "<pre>"; print_r($path); echo "</pre>";
+        //echo "<pre>"; print_r($path); echo "</pre>";
         return $path;
     }
 //------------------------------------------------------------------------
@@ -210,10 +212,10 @@ class MessageController extends Controller
             $lon = $location["lon"];
             print $lat;
             print $lon;*/
-            //$this->cluster();
             $sets = $this->cluster();
             $res = $this->getDistance();
             $path = $this -> TSP($res);
+            //$this->createIP();
             Mapper::map(
                 40.11,
                 -88.25,
@@ -299,12 +301,91 @@ class MessageController extends Controller
     }
 
     public function create()
-    {
+    {   
+        //$option = 1;
+        $curLocation = null;
+        $loc = null;
         if (Auth::check()) {
-            return view('messages.create');
+            Mapper::map(
+                40.11, -88.15,
+                [
+                    'zoom' => 16,
+                    'draggable' => true,
+                    'marker' => false,
+                    'center' => true,
+                    'eventAfterLoad' => 'listenMap(map);'
+                ]
+            );
+            return view('messages.create', compact('curLocation', 'loc'));
         } else {
             return view('auth.login');
         }
+    }
+    public function createIII(Requests\MessageRequest $request)
+    {
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,     // return web page
+            CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+        );
+        $data = $request->get('data');
+        $tmp = explode(",", $data);
+        $dum1 = explode("(", $tmp[0]);
+        $lat = $dum1[1];
+        $dum1 = explode(")", $tmp[1]);
+        $lon = $dum1[0];
+        $latlng = strval(trim($lat)).",".strval(trim($lon));
+        $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=".$latlng;
+        $ch = curl_init($url);
+        curl_setopt_array( $ch, $options );
+        $query = curl_exec( $ch );
+        curl_close( $ch );
+        $details = json_decode($query, TRUE);
+        $curLocation = $details['results'][0]['formatted_address'];
+        Mapper::map(
+                $lat, $lon,
+                [
+                    'zoom' => 16,
+                    'draggable' => true,
+                    'marker' => false,
+                    'center' => true,
+                    'eventAfterLoad' => 'listenMap(map);'
+                ]
+        );
+        $loc = array($lat, $lon);
+        return view('messages.create', compact('curLocation', 'loc'));
+    }
+    public function createIP() // input text
+    {
+
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,     // return web page
+            CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+        );
+        //$location = GeoIP::getLocation();
+        //$lat = $location["lat"];
+        //$lon = $location["lon"];
+        $lat = 40.12;
+        $lon = -88.25;
+        $latlng = strval($lat).",".strval($lon);
+        $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=".$latlng;
+        $ch = curl_init($url);
+        curl_setopt_array( $ch, $options );
+        $request = curl_exec( $ch );
+        curl_close( $ch );
+        $details = json_decode($request, TRUE);
+        $curLocation = $details['results'][0]['formatted_address'];
+        Mapper::map(
+                $lat, $lon,
+                [
+                    'zoom' => 16,
+                    'draggable' => true,
+                    'marker' => false,
+                    'center' => true,
+                    'eventAfterLoad' => 'listenMap(map);'
+                ]
+        );
+        $loc = array($lat, $lon);
+        return view('messages.create', compact('curLocation', 'loc'));
     }
 
     public function store(Requests\MessageRequest $request)

@@ -9,15 +9,29 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use Image;
+use Session;
 
 class UserController extends Controller
 {
     //
     public function profile() {
-    	return view('profile', array('user' => Auth::user()));
+    	if (Auth::check()) {
+    		return view('profiles.profile', array('user' => Auth::user()));
+    	} else {
+    		return view('auth.login');
+    	}
     }
 
-    public function updateAvatar(Request $request){
+    public function edit()
+    {
+    	if (Auth::check()) {
+        	return view('profiles.edit', array('user' => Auth::user()));
+        } else {
+        	return view('auth.login');
+        }
+    }
+
+    public function update(Request $request){
     	// Handle the user upload of avatar
     	if($request->hasFile('avatar')){
     		$avatar = $request->file('avatar');
@@ -27,6 +41,9 @@ class UserController extends Controller
     		$user->avatar = $filename;
     		$user->save();
     	}
-    	return view('profile', array('user' => Auth::user()) );
+    	// Session::flash('success', 'Profile image updated.');
+    	// return view('profiles.profile', array('user' => Auth::user()));
+    	return redirect()->route('profile', array('user' => Auth::user()))
+    					 ->with('success','Avatar updated.');
     }
 }

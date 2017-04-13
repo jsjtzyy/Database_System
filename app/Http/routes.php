@@ -44,5 +44,6 @@ Route::delete('{id}', 'MessageController@delete');
 
 Route::auth();
 
-Route::get('profile', 'UserController@profile');
-Route::post('profile', 'UserController@updateAvatar');
+Route::get('profile', 'UserController@profile')->name('profile');
+Route::get('profile/edit', 'UserController@edit')->name('profile.edit');
+Route::post('profile/update', 'UserController@update')->name('profile.update');

@@ -8,12 +8,17 @@
     <title>GoTogether</title>
     
     <link rel='stylesheet' href="/css/all.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/noty.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/fileinput.css" type='text/css' media='all'/>
+    <link rel="stylesheet" href="/css/font-awesome.css" type='text/css' media='all'/>
     <link rel='stylesheet' href="/css/bootstrap.min.css" type='text/css' media='all'/>
     <link rel='stylesheet' href="/css/bootstrap-datepicker.css" type='text/css' media='all'/>
     <link rel='stylesheet' href="/css/bootstrap-timepicker.css" type='text/css' media='all'/>
     
     <script type='text/javascript' src="/js/all.js"></script>
+    <script type='text/javascript' src="/js/noty.js"></script>
     <script type='text/javascript' src="/js/jquery.js"></script>
+    <script type='text/javascript' src="/js/fileinput.js"></script>
     <script type='text/javascript' src="/js/bootstrap.min.js"></script>
     <script type='text/javascript' src="/js/bootstrap-datepicker.js"></script>
     <script type='text/javascript' src="/js/bootstrap-timepicker.js"></script>
@@ -66,8 +71,8 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             </ul>
                         </li>
                     @endif
@@ -77,24 +82,32 @@
     </nav>
 
     <div class="container">
-        <section class="content">
-            <div class="pad group">
-                @yield('content')
-            </div>
-        </section>
+        @yield('content')
     </div>
 
-    <div id="wrapper">
-        <nav class="nav-container group" id="nav-footer">
-            <div class="nav-wrap">
-                <ul class="nav container group">
-                    <li class="menu-item">
-                        <a href="/">GoTogether Beta</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+    <footer class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="navbar-text">&copy; 2017 GoTogether, Inc.</p>
+        </div>
+    </footer>
 
+    <script>
+        @if(Session::has('success'))
+            new Noty({
+                type: 'success',
+                layout: 'bottomLeft',
+                text: '{{ Session::get('success') }}',
+                timeout: 1000
+            }).show();
+        @endif   
+        @if(Session::has('error'))
+            new Noty({
+                type: 'error',
+                layout: 'bottomLeft',
+                text: '{{ Session::get('error') }}',
+                timeout: 1000
+            }).show();
+        @endif    
+    </script>
 </body>
 </html>

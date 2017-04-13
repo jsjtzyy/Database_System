@@ -85,7 +85,7 @@
         @yield('content')
     </div>
 
-    <footer class="navbar navbar-default navbar-fixed-bottom">
+    <footer class="navbar navbar-default navbar-bottom">
         <div class="container">
             <p class="navbar-text">&copy; 2017 GoTogether, Inc.</p>
         </div>

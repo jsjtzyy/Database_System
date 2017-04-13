@@ -31,6 +31,7 @@ Route::get('message/search','MessageController@search');
 Route::post('message/result','MessageController@result');
 
 Route::get('message/create','MessageController@create');
+Route::get('message/analysis','MessageController@analysis');
 
 Route::get('message/createIP','MessageController@createIP');
 Route::post('message/createIII', 'MessageController@createIII');

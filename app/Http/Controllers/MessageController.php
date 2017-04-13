@@ -8,10 +8,8 @@ use Torann\GeoIP\Facades\GeoIP;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
 use Request;
 use Input;
-
 use Auth;
 use SplPriorityQueue;
 use Carbon\Carbon;
@@ -117,7 +115,6 @@ class MessageController extends Controller
         $locs = $loc1 . "|" . $loc2 . "|" . $loc3 . "|" . $loc4 ."&";
         $url = "http://maps.googleapis.com/maps/api/distancematrix/json?";
         $url = $url . "origins=". $locs . "destinations=" . $locs . "mode=driving";
-        //$details = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=40.11,-88.25&destinations=Chicago&mode=driving&sensor=false";
         $ch = curl_init($url);
         curl_setopt_array( $ch, $options );
         $request = curl_exec( $ch );
@@ -164,14 +161,13 @@ class MessageController extends Controller
             $objPQ->next();
         }
         return array($res, $locationArray);
-        // $dist = $details['rows'][0]['elements'][0]['distance']['text'];
         //echo "<pre>"; print_r($details); echo "</pre>";
     }
 
     public function TSP($mst){ // travelling salesman problem
         $edges = $mst[0];
         $locations = $mst[1]; $locsNum = count($mst[1]);
-        $root = 2; // 0, 1, 2, 3
+        $root = 3; // 0, 1, 2, 3
         $path = array();
         $locsNeighbors = array();
         foreach ($edges as $edge) {
@@ -205,54 +201,45 @@ class MessageController extends Controller
         $matchUserPairs = 
         DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
         WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber AND m1.date = m2.date',['offerRide','requestRide']);
-        //$articles = Article::latest()->get();
         if (Auth::check()) {
-            /*$location = GeoIP::getLocation();
-            $lat = $location["lat"];
-            $lon = $location["lon"];
-            print $lat;
-            print $lon;*/
-            $sets = $this->cluster();
-            $res = $this->getDistance();
-            $path = $this -> TSP($res);
-            //$this->createIP();
-            Mapper::map(
-                40.11,
-                -88.25,
-                [
-                    'zoom' => 16,
-                    'draggable' => true,
-                    'marker' => false,
-                    'center' => true,
-                    //'locate' => true
-                    'eventAfterLoad' => 'styleMap(maps[0].map);'
-                    //'eventAfterLoad' => 'function ()  {styleMap(maps[0].map); }'
-                ]
-            );
-            //Mapper::marker(40.10, -88.248, ['draggable' => true]);
-            //Mapper::marker(40.12, -88.251, ['draggable' => true]);
-            /*
-            $loc = Mapper::location('Siebel');//->map(['zoom' => 18, 'center' => true]);
-            $lon = $loc->getLongitude();
-            $lat = $loc->getLatitude();
-            Mapper::map($lat , $lon, [
-                    'zoom' => 16,
-                    'draggable' => true,
-                    'marker' => true,
-                    'center' => true
-                    ]);
-            Mapper::marker($lat + 0.002, $lon + 0.002);
-            Mapper::marker($lat - 0.002, $lon + 0.002);
-            Mapper::marker($lat + 0.002, $lon - 0.002);
-            Mapper::marker($lat - 0.002, $lon - 0.002);
-            */
-            //Mapper::streetview(40.11, -88.25, 1, 1);
-            //Mapper::map(40.11, -88.25)->informationWindow(39.13, -88.244, 'Content', ['markers' => ['animation' => 'DROP']]);
-            //Mapper::map(40.11, -88.25)->polyline([['latitude' => 40.11, 'longitude' => -88.256], ['latitude' => 40.11, 'longitude' => -88.249]], ['strokeColor' => '#100000', 'strokeOpacity' => 0.5, 'strokeWeight' => 4]);
-          return view('messages.index',compact('messages', 'matchUserPairs', 'res', 'sets','path'));//, 'matchUserPairs'
+            // $sets = $this->cluster();
+            // $res = $this->getDistance();
+            // $path = $this -> TSP($res);
+            // Mapper::map(
+            //     40.11,
+            //     -88.25,
+            //     [
+            //         'zoom' => 16,
+            //         'draggable' => true,
+            //         'marker' => false,
+            //         'center' => true,
+            //         'eventAfterLoad' => 'styleMap(maps[0].map);'
+            //     ]
+            // );
+            
+          return view('messages.index',compact('messages', 'matchUserPairs'));//, 'matchUserPairs'
         } else {
           return view('auth.login');
         }
+    }
+
+    public function analysis(){
+        $sets = $this->cluster();
+        $res = $this->getDistance();
+        $path = $this -> TSP($res);
+        Mapper::map(
+            40.11,
+            -88.25,
+            [
+                'zoom' => 16,
+                'draggable' => true,
+                'marker' => false,
+                'center' => true,
+                'eventAfterLoad' => 'styleMap(maps[0].map);'
+            ]
+        );
+
+        return view('messages.analysis',compact('res', 'sets','path'));//
     }
 
     public function search()
@@ -321,7 +308,8 @@ class MessageController extends Controller
             return view('auth.login');
         }
     }
-    public function createIII(Requests\MessageRequest $request)
+
+    public function createIII(Requests\MessageRequest $request) // get location by clicking on map
     {
         $options = array(
             CURLOPT_RETURNTRANSFER => true,     // return web page
@@ -354,7 +342,8 @@ class MessageController extends Controller
         $loc = array($lat, $lon);
         return view('messages.create', compact('curLocation', 'loc'));
     }
-    public function createIP() // input text
+
+    public function createIP() // get location by IP
     {
 
         $options = array(
@@ -431,9 +420,6 @@ class MessageController extends Controller
                 $request->get('destination'),$request->get('content'), $request->get('category'), $request->get('date'),
                 $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, $request->get('msgID')
             ]);
-       /* $matchUserPair = DB::select('SELECT m1.userID AS provider, m2.userID AS requester FROM messageOfferRide m1 JOIN messageOfferRide m2 ON m1.destination = m2.destination
-                        WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber',['offerRide','requestRide']);
-                        */
         if (Auth::check()) {
             return redirect('/');
         } else {
@@ -441,9 +427,7 @@ class MessageController extends Controller
         }
     }
     public function delete($id){
-        //$message = MessageOfferRide::findOrFail($id);
         DB::delete('delete from messageOfferRide WHERE msgID = ?',[$id]);
-        //$message -> delete();
         if (Auth::check()) {
             return redirect('/');
         } else {

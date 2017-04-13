@@ -19,6 +19,7 @@
         <script type='text/javascript' src="/js/bootstrap-datepicker.js"></script>
         <script type='text/javascript' src="/js/bootstrap-timepicker.js"></script>
         -->
+        
         <link rel='stylesheet' href="/public/css/all.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/public/css/bootstrap.min.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/public/css/bootstrap-datepicker.css" type='text/css' media='all'/>
@@ -29,6 +30,7 @@
         <script type='text/javascript' src="/public/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="/public/js/bootstrap-datepicker.js"></script>
         <script type='text/javascript' src="/public/js/bootstrap-timepicker.js"></script>
+        
     </head>
     <body>
 

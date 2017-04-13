@@ -22,11 +22,13 @@
 			</div>
 	    </div>
 	</article>
-	<form action="{{ $message->msgID }}" method="POST">
-		{{ csrf_field() }}
-		{{ method_field('DELETE') }}
-		<button type="submit" class="btn btn-danger">Delete</button>
+	@if ($message->userID == Auth::user()->id)
+		<form action="{{ $message->msgID }}" method="POST">
+			{{ csrf_field() }}
+			{{ method_field('DELETE') }}
+			<button type="submit" class="btn btn-danger">Delete</button>
 	</form>
+	@endif
     @endforeach
 	<a class="more-link-custom" href="/message/create"><span><i>NEW POST</i></span></a>
 	<a class="more-link-custom" href="/message/search"><span><i>SEARCH</i></span></a>

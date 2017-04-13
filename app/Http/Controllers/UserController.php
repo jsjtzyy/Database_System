@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use Image;
-use Session;
+// use Session;
 
 class UserController extends Controller
 {

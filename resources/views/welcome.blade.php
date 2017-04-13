@@ -60,7 +60,7 @@
             <button type="submit" href="message/create" class="btn btn-success">Post</button>
           </form>
           <form method="get", action="dashboard" class="navbar-form navbar-right">
-            <button type="submit" href="{{ action('MessageController@index') }}" class="btn btn-success">View Post</button>
+            <button type="submit" href="dashboard" class="btn btn-success">View Post</button>
           </form>
           
         </div><!--/.navbar-collapse -->
@@ -72,7 +72,7 @@
       <div class="container">
         <h1>Gotogether</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" href="dashboard" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
 
@@ -82,17 +82,17 @@
         <div class="col-md-4">
           <h2>Restaurant</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="dashboard/restaurant" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <h2>Movie</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="dashboard/movie" role="button">View details &raquo;</a></p>
        </div>
         <div class="col-md-4">
           <h2>Ride</h2>
           <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="dashboard/ride" role="button">View details &raquo;</a></p>
         </div>
       </div>
 

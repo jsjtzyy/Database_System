@@ -197,9 +197,16 @@ class MessageController extends Controller
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 
-    public function index()
+    public function index($category)
     {
-        $messages = DB::select('SELECT * FROM messageOfferRide ORDER BY msgID');
+        if(is_null($category)) {
+            $messages = DB::select('SELECT * FROM messageOfferRide ORDER BY msgID');
+        } else if ($category == 'ride') {
+            $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? OR category = ? ORDER BY msgID', ['offerRide','requestRide']);
+        } else {
+            $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? ORDER BY msgID', [$category]);
+        }
+        
         $matchUserPairs = 
         DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
         WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber AND m1.date = m2.date',['offerRide','requestRide']);
@@ -296,6 +303,26 @@ class MessageController extends Controller
         } else {
             return view('auth.login');
         }
+    }
+
+    public function showAll()
+    {
+        return $this -> index(NULL);
+    }
+
+    public function showRide()
+    {
+        return $this -> index('ride');
+    }
+
+    public function showMovie()
+    {
+        return $this -> index('Mo');
+    }
+
+    public function showRestaurant()
+    {
+        return $this -> index('Re');
     }
 
     public function create()

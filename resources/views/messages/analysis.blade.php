@@ -7,20 +7,33 @@
 
 <a class="more-link-custom" href="/dashboard"><span><i>Return</i></span></a>
 <button onclick="cluster()"> Cluster </button>
+<button onclick="match()"> Find potential passengers </button>
+{!! Form::open(['url'=>'message/recommend']) !!}
+{!! Form::hidden('data', '', array('id' => 'data')) !!}
+{!! Form::submit('Generate path', array('class'=>'send-btn')) !!}
+{!! Form::close() !!}
+<button onclick="showRoute()"> Recommended Route </button>
+
 
 <script>
 	var sets = [[],[]];
-	var locs = <?php echo json_encode($locs, JSON_HEX_TAG); ?>;
+	var locs = <?php echo json_encode($riders, JSON_HEX_TAG); ?>;
+    var drivers = <?php echo json_encode($drivers, JSON_HEX_TAG); ?>
+    // Here we assume first driver is the current user
 	var centers = [ [40.09, -88.26],
             		[40.12, -88.23]
             	  ];
     sets[0] = locs;
-
+    var path = null;
+    var edges = null;
+    var locationArray = null;
     var clusterMarkers = [];
     var globalMap = null;
+    var displayArray = [];
     function deg2rad(deg){
     	return deg * Math.PI / 180;
-    } 
+    }
+
     function distance(point1, point2) {
         var lat1 = point1[0];var lon1 = point1[1];
         var lat2 = point2[0];var lon2 = point2[1];
@@ -30,6 +43,53 @@
         dist = dist * 180 / Math.PI;
         var miles = dist * 60 * 1.1515;
         return miles;
+    }
+
+    function match() {
+        var minDist = 10000000000;
+        var minIndex = -1;
+        var tmp = 0;
+        for(var i = 0; i < centers.length; ++i){
+            tmp  = distance(drivers[0], centers[i]);
+            if(tmp < minDist){
+                minDist = tmp;
+                minIndex = i;
+            }
+        }
+        var passengers = sets[minIndex];
+        var res = "";
+        setMapOnAll(null);
+        for(var j = 0; j < passengers.length; ++j){
+            lat = passengers[j][0];
+            lon = passengers[j][1];
+            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "E74C3C",
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34));
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat,lon), 
+                map: globalMap,
+                icon: pinImage
+            });
+            clusterMarkers.push(marker);
+            marker.setMap(globalMap);
+            res += lat + "," + lon + "|";
+        }
+        lat = drivers[0][0];
+        lon = drivers[0][1];
+        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "FFFF00",
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0,0),
+        new google.maps.Point(10, 34));
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat,lon), 
+            map: globalMap,
+            icon: pinImage
+        });
+        clusterMarkers.push(marker);
+        marker.setMap(globalMap);
+        res += lat + "," + lon;
+        document.getElementById('data').setAttribute('value', res); // last is driver
     }
 
 	function cluster() {
@@ -51,7 +111,6 @@
             }
             sets[minIndex].push(locs[j]); // append
         }
-
         for(var k = 0; k < clusterNum; k++){ // update centers
             var xSum = 0; var ySum = 0;
             var arr = sets[k];
@@ -86,12 +145,10 @@
         }
         if(map == null) clusterMarkers = [];
     }
-	function showClustering(map){
 
-		// var sets = res[0];
-		// var centers = res[1];
+	function showClustering(map){
 		var cNum = sets.length;
-		var colors = ["58D68D", "3498DB", "FFFF00"];
+		var colors = ["58D68D", "3498DB", "E74C3C", "FFFF00"];
 		var lat = 0, lon = 0;
 		setMapOnAll(null);
 		for(var i = 0 ; i < cNum; ++i){
@@ -99,8 +156,6 @@
 			for(var j = 0; j < pNum; ++j){
 				lat = sets[i][j][0];
 				lon = sets[i][j][1];
-				//console.log(lat);
-				//console.log(lon);
 	    		var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colors[i],
 		        new google.maps.Size(21, 34),
 		        new google.maps.Point(0,0),
@@ -114,12 +169,13 @@
 	            marker.setMap(map);
         	}
 		}
+
 		for(var i = 0; i < 2; ++i){
 			lat = centers[i][0];
 			lon = centers[i][1];
-    		var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colors[2],
+    		var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colors[3],
 	        new google.maps.Size(21, 34),
-	        new google.maps.Point(0,0),
+	        new google.maps.Point(0, 0),
 	        new google.maps.Point(10, 34));
 			var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(lat,lon), 
@@ -131,14 +187,100 @@
 		}
 	}
 
+
+    function generate(map)
+    {
+        globalMap = map;
+        var data = <?php echo json_encode($res, JSON_HEX_TAG); ?>;
+        path = <?php echo json_encode($path, JSON_HEX_TAG); ?>;
+        edges = data[0];
+        locationArray = data[1];
+        console.log(locationArray);
+        clusterMarkers = [];
+        for (var i = 0; i < edges.length; i++) {
+            var edge = edges[i];
+            var node1 = locationArray[edge[0]];
+            var node2 = locationArray[edge[2]];
+            var arr = node1.split(",");
+            var val1 = parseFloat(arr[0]);
+            var val2 = parseFloat(arr[1]);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(val1,val2), 
+                map: map
+            });
+            //marker.setMap(map);
+            clusterMarkers.push(marker);
+            var arr = node2.split(",");
+            var val1 = parseFloat(arr[0]);
+            var val2 = parseFloat(arr[1]);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(val1,val2), 
+                map: map
+            });
+            //marker.setMap(map);
+            clusterMarkers.push(marker);
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+            directionsDisplay.setMap(map);
+            directionsDisplay.setOptions({
+                polylineOptions: {
+                    strokeWeight: 4,
+                    strokeOpacity: 1,
+                    strokeColor: 'red'
+                }
+            });
+            displayArray.push(directionsDisplay);
+            calculateAndDisplayRoute(directionsService, directionsDisplay, node1, node2);           
+        }
+    }
+
+    function showRoute() 
+    {
+        //Clear 
+        for(var i = 0; i < displayArray.length; ++i){
+            displayArray[i].setMap(null);
+        }
+        //clusterMarkers[0].setMap(null);
+        //clusterMarkers[1].setMap(null);
+
+        //Display TSP Route path
+        for (var i = 0; i < path.length - 1; i++) {
+            var node1 = locationArray[path[i]];
+            var node2 = locationArray[path[i+1]];
+            if(i == 0){
+                var arr = node1.split(",");
+                var val1 = parseFloat(arr[0]);
+                var val2 = parseFloat(arr[1]);
+                var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(val1,val2), 
+                    animation: google.maps.Animation.DROP,
+                    map: globalMap,
+                    icon: image
+                });
+                marker.setMap(globalMap);
+            }
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+            directionsDisplay.setMap(globalMap);
+            directionsDisplay.setOptions({
+                polylineOptions: {
+                    strokeWeight: 4,
+                    strokeOpacity: 1,
+                    strokeColor: 'blue'
+                }
+            });
+            calculateAndDisplayRoute(directionsService, directionsDisplay, node1, node2);
+        }
+    }
     function styleMap(map)
     {
-        
-        var data = <?php echo json_encode($res, JSON_HEX_TAG); ?>;
-        var path = <?php echo json_encode($path, JSON_HEX_TAG); ?>;
- 		var edges = data[0];
- 		var locationArray = data[1];
- 		console.log(locationArray);
+        //var data = <?php echo json_encode($res, JSON_HEX_TAG); ?>;
+        //var path = <?php echo json_encode($path, JSON_HEX_TAG); ?>;
+ 		// var edges = data[0];
+ 		// var locationArray = data[1];
+ 		//console.log(locationArray);
+        /*
         for (var i = 0; i < edges.length; i++) {
         	var edge = edges[i];
         	var node1 = locationArray[edge[0]];
@@ -171,10 +313,11 @@
         	});
 			calculateAndDisplayRoute(directionsService, directionsDisplay, node1, node2);			
         }
+        */
         globalMap = map;
         //Display clustering result
         showClustering(map);
-
+        /*
         //Display TSP Route path
 		for (var i = 0; i < path.length - 1; i++) {
 			var node1 = locationArray[path[i]];
@@ -204,6 +347,7 @@
         	});
 			calculateAndDisplayRoute(directionsService, directionsDisplay, node1, node2);
 		}
+        */
     }
 </script>
 @endsection

@@ -35,6 +35,7 @@ Route::get('message/analysis','MessageController@analysis');
 
 Route::get('message/createIP','MessageController@createIP');
 Route::post('message/createIII', 'MessageController@createIII');
+Route::post('message/recommend', 'MessageController@recommend');
 
 Route::post('message/store','MessageController@store');
 Route::get('messages/{id}','MessageController@show'); // another router

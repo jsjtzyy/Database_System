@@ -47,7 +47,7 @@ class MessageController extends Controller
     }
 
     public function cluster(){  // k-means clustering
-        $locs = array(
+        $riders = array(
             array(40.05,-88.16), 
             array(40.11, -88.25),
             array(40.11, -88.20),
@@ -56,8 +56,14 @@ class MessageController extends Controller
             array(40.15, -88.15),
             array(40.03, -88.26),
             array(40.08, -88.24),
-            array(40.09, -88.16)
+            array(40.09, -88.16),
+            array(40.05, -88.16),
+            array(40.15, -88.20),
+            array(40.11, -88.30)
             );
+        $drivers = array(
+            array(40.09, -88.22)
+            ); 
         // $clusterNum = 2;
         // $centers = array(
         //     array(40.09, -88.26),
@@ -93,27 +99,22 @@ class MessageController extends Controller
         // }
         //echo "<pre>"; print_r($centers); 
         //print_r($sets); echo "</pre>";
-        return $locs;
+        return array($riders, $drivers);
         //return array($sets, $centers);
     }
 
-    public function getDistance(){  // Kruscal MST Alogrithm
+    public function getDistance($input){  // Kruscal MST Alogrithm
         // get distance between origin and destination
         $options = array(
                 CURLOPT_RETURNTRANSFER => true,     // return web page
                 CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
             );
-        /*
-        $loc = Mapper::location('Siebel');
-        $loc1 = strval($loc->getLatitude()) . "," . strval($loc->getLongitude());
-        $loc = Mapper::location('Illini Union');
-        $loc2 = strval($loc->getLatitude()) . "," . strval($loc->getLongitude());
-        */
-        $loc1 = "40.05,-88.16";
-        $loc2 = "40.15,-88.20";
-        $loc3 = "40.11,-88.30";
-        $loc4 = "40.09,-88.22";
-        $locs = $loc1 . "|" . $loc2 . "|" . $loc3 . "|" . $loc4 ."&";
+        // $loc1 = "40.05,-88.16";
+        // $loc2 = "40.15,-88.20";
+        // $loc3 = "40.11,-88.30";
+        // $loc4 = "40.09,-88.22";
+        //$locs = $loc1 . "|" . $loc2 . "|" . $loc3 . "|" . $loc4 ."&";
+        $locs = $input . "&";
         $url = "http://maps.googleapis.com/maps/api/distancematrix/json?";
         $url = $url . "origins=". $locs . "destinations=" . $locs . "mode=driving";
         $ch = curl_init($url);
@@ -121,10 +122,11 @@ class MessageController extends Controller
         $request = curl_exec( $ch );
         curl_close( $ch );
         $details = json_decode($request, TRUE); // would be used for TSP problem
-        $total = 4;
         $id = array();
         $size = array();
-        $locationArray = array($loc1, $loc2, $loc3, $loc4);
+        $locationArray = explode("|", $input);
+        $total = count($locationArray);
+        //$locationArray = array($loc1, $loc2, $loc3, $loc4);
         $objPQ = new PQtest(); 
         for ($i = 0; $i < $total; $i++) {
             for($j = $i + 1; $j < $total; $j++){
@@ -168,7 +170,8 @@ class MessageController extends Controller
     public function TSP($mst){ // travelling salesman problem
         $edges = $mst[0];
         $locations = $mst[1]; $locsNum = count($mst[1]);
-        $root = 3; // 0, 1, 2, 3
+        //echo "<pre>"; print_r($locsNum); echo "</pre>";
+        $root = $locsNum - 1; // the last is driver
         $path = array();
         $locsNeighbors = array();
         foreach ($edges as $edge) {
@@ -179,6 +182,7 @@ class MessageController extends Controller
         }
         $cnt = 0;
         $cache = array($root);
+        //echo "<pre>"; print_r($locsNeighbors); echo "</pre>";
         while($cnt < $locsNum){
             $node = array_pop($cache);
             $path[] = $node;
@@ -190,7 +194,7 @@ class MessageController extends Controller
                 }
             }
         }
-        //echo "<pre>"; print_r($path); echo "</pre>";
+        echo "<pre>"; print_r($path); echo "</pre>";
         return $path;
     }
 //------------------------------------------------------------------------
@@ -203,20 +207,6 @@ class MessageController extends Controller
         DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
         WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber AND m1.date = m2.date',['offerRide','requestRide']);
         if (Auth::check()) {
-            // $sets = $this->cluster();
-            // $res = $this->getDistance();
-            // $path = $this -> TSP($res);
-            // Mapper::map(
-            //     40.11,
-            //     -88.25,
-            //     [
-            //         'zoom' => 16,
-            //         'draggable' => true,
-            //         'marker' => false,
-            //         'center' => true,
-            //         'eventAfterLoad' => 'styleMap(maps[0].map);'
-            //     ]
-            // );
           return view('messages.index',compact('messages', 'matchUserPairs'));//, 'matchUserPairs'
         } else {
           return view('auth.login');
@@ -224,9 +214,11 @@ class MessageController extends Controller
     }
 
     public function analysis(){
-        $locs = $this->cluster();
-        $res = $this->getDistance();
-        $path = $this -> TSP($res);
+        $locs = $this->cluster(); // get original matched points from DB
+        $riders = $locs[0];
+        $drivers = $locs[1];
+        $res = null;
+        $path = null;
         Mapper::map(
             40.11,
             -88.25,
@@ -238,8 +230,28 @@ class MessageController extends Controller
                 'eventAfterLoad' => 'styleMap(maps[0].map);'
             ]
         );
+        return view('messages.analysis',compact( 'riders', 'drivers', 'res','path'));//
+    }
 
-        return view('messages.analysis',compact('res', 'locs','path'));//
+    public function recommend(Requests\MessageRequest $request)
+    {
+        $riders = null;
+        $drivers = null;
+        $data = $request->get('data');
+        $res = $this->getDistance($data); // build MST
+        $path = $this -> TSP($res); // compute TSP
+        Mapper::map(
+            40.11,
+            -88.25,
+            [
+                'zoom' => 16,
+                'draggable' => true,
+                'marker' => false,
+                'center' => true,
+                'eventAfterLoad' => 'generate(maps[0].map);'
+            ]
+        );
+        return view('messages.analysis',compact( 'riders', 'drivers', 'res','path'));//
     }
 
     public function search()

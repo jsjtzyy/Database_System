@@ -24,8 +24,8 @@ class MessageRequest extends Request
     public function rules()
     {
         return [
-            'destination' => 'required',
-            'content' => 'required'
+            //'destination' => 'required',
+            //'content' => 'required'
         ];
     }
 }

@@ -26,13 +26,17 @@ Route::get('signin', function () {
     return view('auth.login');
 });
 //Route::get('/','MessageController@index');
-Route::get('dashboard','MessageController@index');
+Route::get('/dashboard','MessageController@index');
 Route::get('message/search','MessageController@search');
 Route::post('message/result','MessageController@result');
 
 Route::get('message/create','MessageController@create');
-Route::post('message/store','MessageController@store');
+Route::get('message/analysis','MessageController@analysis');
 
+Route::get('message/createIP','MessageController@createIP');
+Route::post('message/createIII', 'MessageController@createIII');
+
+Route::post('message/store','MessageController@store');
 Route::get('messages/{id}','MessageController@show'); // another router
 
 Route::get('message/edit/{id}','MessageController@edit');

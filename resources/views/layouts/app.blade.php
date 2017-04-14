@@ -13,8 +13,8 @@
     <script type='text/javascript' src="/js/all.js"></script>
     -->
     
-    <link rel='stylesheet' href="/public/css/all.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap.min.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/all.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/bootstrap.min.css" type='text/css' media='all'/>
     <script type='text/javascript' src="/public/js/all.js"></script>
     
 

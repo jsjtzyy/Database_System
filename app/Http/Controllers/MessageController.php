@@ -381,6 +381,7 @@ class MessageController extends Controller
     {
         $inputLoc = $request->get('curLocation');
         $loc = Mapper::location($inputLoc);
+        dd($loc);
         $coordinate = strval($loc->getLatitude()) . "," . strval($loc->getLongitude());
 
         DB::insert('insert into messageOfferRide (destination, content, category, date, time, seatsNumber, curLocation, coordinate, userID) 

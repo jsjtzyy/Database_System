@@ -56,9 +56,9 @@
     </div>
 
 
-<button type="button" onclick="window.location='{{ url("message/createIP") }}'">Use your location</button>
-
-
+<!-- <button type="button" onclick="window.location='{{ url("message/createIP") }}'">Use your location</button>
+ -->
+<button onclick="getLocation()"> Use your current location </button>
 {!! Form::open(['url'=>'message/createIII']) !!}
 {!! Form::text('data', '', array('id' => 'data')) !!}
 {!! Form::submit('Update', array('class'=>'send-btn')) !!}
@@ -68,16 +68,50 @@
  <!-- ************************************************************ -->
 <script type="text/javascript">
 
-
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
 });
 
+var globalMap = null;
 var res = null;
+
+function getLocation(){
+    var map = globalMap;
+    console.log("w3c");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var str = "(" + pos.lat + "," + pos.lng + ")";
+          document.getElementById('data').setAttribute('value', str);
+          map.setCenter(pos);
+          coordinate = new google.maps.LatLng(pos.lat,pos.lng);
+          if(map.markers == null){
+             map.markers = new google.maps.Marker({
+                 position: coordinate, 
+                 map: map,
+                 draggable:true
+             });
+          }else{
+            map.markers.setPosition(coordinate);
+          }
+        }, function() {
+          console.log("do nothing");
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        console.log("Browser fails to support Geolocation");
+      }
+}
+
+
 function listenMap(map){
   var data = <?php echo json_encode($loc, JSON_HEX_TAG); ?>;
+  globalMap = map;
   if(data != null){
      map.markers = new google.maps.Marker({
         position: new google.maps.LatLng(data[0],data[1]), 
@@ -101,7 +135,7 @@ function listenMap(map){
     }else{
       map.markers.setPosition(event.latLng);
       res = map.markers.getPosition().toString();
-      console.log(res);
+      console.log(event.latLng);
       document.getElementById('data').setAttribute('value', res);
     }
   });

@@ -426,7 +426,7 @@ class MessageController extends Controller
                 $request->get('date'), $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, Auth::user()->id
             ]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }
@@ -436,7 +436,7 @@ class MessageController extends Controller
     {
         $messages =  DB::select('SELECT * FROM messageOfferRide WHERE msgID = ?', [$id]);
         if(is_null($messages)){
-            redirect('/');
+            redirect('dashboard');
         }
         if (Auth::check()) {
             return view('messages.edit',compact('messages'));
@@ -457,7 +457,7 @@ class MessageController extends Controller
                 $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, $request->get('msgID')
             ]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }
@@ -465,7 +465,7 @@ class MessageController extends Controller
     public function delete($id){
         DB::delete('delete from messageOfferRide WHERE msgID = ?',[$id]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }

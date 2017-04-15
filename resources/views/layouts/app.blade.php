@@ -107,7 +107,7 @@
                 text: '{{ Session::get('error') }}',
                 timeout: 1000
             }).show();
-        @endif    
+        @endif  
     </script>
 </body>
 </html>

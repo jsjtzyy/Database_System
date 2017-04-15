@@ -40,6 +40,12 @@ Route::post('message/result','MessageController@result');
 Route::get('message/create','MessageController@create');
 Route::post('message/store','MessageController@store');
 
+Route::post('message/analysis','MessageController@analysis');
+
+Route::get('message/createIP','MessageController@createIP');
+Route::post('message/createIII', 'MessageController@createIII');
+Route::post('message/recommend', 'MessageController@recommend');
+
 Route::get('messages/{id}','MessageController@show');
 
 Route::get('message/edit/{id}','MessageController@edit');

@@ -198,7 +198,7 @@
         	}
 		}
 
-		for(var i = 0; i < 2; ++i){
+		for(var i = 0; i < cNum; ++i){
 			lat = centers[i][0];
 			lon = centers[i][1];
     		var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colors[3],

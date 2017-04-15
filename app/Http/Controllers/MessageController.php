@@ -212,11 +212,9 @@ class MessageController extends Controller
                 $offerNum[] = $seats;
             }
         }
-        echo "<pre>"; print_r($riders); echo "</pre>";
-        echo "<pre>"; print_r($drivers); echo "</pre>";
+        //echo "<pre>"; print_r($riders); echo "</pre>";
+        //echo "<pre>"; print_r($drivers); echo "</pre>";
         //$locs = $this->cluster(); // get original matched points from DB
-        //$riders = $locs[0];
-        //$drivers = $locs[1];
         $res = null;
         $path = null;
         Mapper::map(
@@ -254,8 +252,8 @@ class MessageController extends Controller
                 'eventAfterLoad' => 'generate(maps[0].map);'
             ]
         );
-        echo "<pre>"; print_r($res); echo "</pre>";
-        echo "<pre>"; print_r($path); echo "</pre>";
+        //echo "<pre>"; print_r($res); echo "</pre>";
+        //echo "<pre>"; print_r($path); echo "</pre>";
         return view('messages.analysis',compact('riders', 'drivers', 'res','path', 'requestNum', 'offerNum', 'type'));//
     }
 

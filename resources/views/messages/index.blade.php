@@ -39,7 +39,7 @@
  -->
 {!! Form::open(['url'=>'message/analysis']) !!}
     <div class="form-group" >
-        {!! Form::label('date','Date:') !!}
+        {!! Form::label('date','Select Date:') !!}
         {!! Form::text('date',null,['class'=>'form-control', 'data-provide' => 'datepicker', 
                                     'data-date-format' => 'yyyy-mm-dd']) !!}
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -15,8 +16,15 @@ class UserController extends Controller
 {
     //
     public function profile() {
+        $user = Auth::user();
+        $ride = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and (category = ? or category = ?) ORDER BY msgID', 
+                            [$user->id, 'offerRide', 'requestRide']);
+        $movie = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and category = ? ORDER BY msgID', 
+                            [$user->id, 'Mo']);
+        $restaurant = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and category = ? ORDER BY msgID', 
+                                [$user->id, 'Re']);
     	if (Auth::check()) {
-    		return view('profiles.profile', array('user' => Auth::user()));
+    		return view('profiles.profile', array('user' => $user, 'rides' => $ride, 'movies' => $movie, 'restaurants' => $restaurant));
     	} else {
     		return view('auth.login');
     	}

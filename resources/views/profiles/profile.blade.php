@@ -9,9 +9,14 @@
                 <div class="panel-heading">{{ $user->name }}'s Profile</div>
                 <div class="panel-body">
                     <center>
-                        <img src="/media/avatars/{{ $user->avatar }}" style="width:150px; height:150px; border-radius:50%;">
+                        <a href="{{ route('profile.edit') }}">
+                            <img src="/media/avatars/{{ $user->avatar }}" style="width:150px; height:150px; border-radius:50%;">
+                        </a>
                     </center>
                     <br>
+                    <p class="text-center">
+                        <strong>{{ $user->email }}</strong>
+                    </p>
                     <p class="text-center">
                         @if(Auth::id() == $user->id)
                             <a href="{{ route('profile.edit') }}" class="btn btn-info">Edit avatar</a>

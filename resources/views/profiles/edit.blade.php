@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit your avatar.</div>
+                <div class="panel-heading">Edit your avatar</div>
                 <div class="panel-body">
                     <form enctype="multipart/form-data" action="{{ route('profile.update') }}" method="POST">
                         {{ csrf_field() }}

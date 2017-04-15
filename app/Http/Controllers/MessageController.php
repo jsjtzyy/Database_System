@@ -64,43 +64,7 @@ class MessageController extends Controller
         $drivers = array(
             array(40.09, -88.22)
             ); 
-        // $clusterNum = 2;
-        // $centers = array(
-        //     array(40.09, -88.26),
-        //     array(40.12, -88.23)
-        //     );
-        // $iter = 2;
-        // $pNum = count($locs);
-        // for($i = 0; $i < $iter; ++$i){
-        //     $sets = array();
-        //     for($j = 0; $j < $pNum; ++$j){
-        //         $minDist = 1E10;
-        //         $minIndex = -1;
-        //         for($k = 0; $k < $clusterNum; $k++){
-        //             $curDist = $this->distance($locs[$j], $centers[$k], 'M');
-        //             if($curDist < $minDist){
-        //                 $minDist = $curDist;
-        //                 $minIndex = $k;
-        //             }
-        //         }
-        //         $sets[$minIndex][] = $locs[$j]; // append
-        //     }
-
-        //     for($k = 0; $k < $clusterNum; $k++){
-        //         $xSum = 0; $ySum = 0;
-        //         $arr = $sets[$k];
-        //         foreach ( $arr as $point) {
-        //             $xSum += $point[0];
-        //             $ySum += $point[1];
-        //         }
-        //         $total = count($sets[$k]);
-        //         $centers[$k] = array($xSum/$total, $ySum/$total);
-        //     }
-        // }
-        //echo "<pre>"; print_r($centers); 
-        //print_r($sets); echo "</pre>";
         return array($riders, $drivers);
-        //return array($sets, $centers);
     }
 
     public function getDistance($input){  // Kruscal MST Alogrithm
@@ -194,7 +158,7 @@ class MessageController extends Controller
                 }
             }
         }
-        echo "<pre>"; print_r($path); echo "</pre>";
+        //echo "<pre>"; print_r($path); echo "</pre>";
         return $path;
     }
 //------------------------------------------------------------------------
@@ -203,20 +167,56 @@ class MessageController extends Controller
     public function index()
     {
         $messages = DB::select('SELECT * FROM messageOfferRide ORDER BY msgID');
+        /*
         $matchUserPairs = 
         DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
         WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber AND m1.date = m2.date',['offerRide','requestRide']);
+        */
         if (Auth::check()) {
-          return view('messages.index',compact('messages', 'matchUserPairs'));//, 'matchUserPairs'
+          return view('messages.index',compact('messages'));//, 'matchUserPairs'
         } else {
           return view('auth.login');
         }
     }
 
-    public function analysis(){
-        $locs = $this->cluster(); // get original matched points from DB
-        $riders = $locs[0];
-        $drivers = $locs[1];
+    public function analysis(Requests\MessageRequest $request){
+        $userID = Auth::user()->id;
+        $date = $request->get('date');
+        $userInfo = DB::select('SELECT * FROM messageOfferRide m WHERE m.userID = ? AND m.date = ?', [$userID, $date]);
+        $messages = DB::select('SELECT m1.coordinate, m1.category, m1.seatsNumber FROM messageOfferRide m1 WHERE m1.date = ? AND m1.destination = ? AND userID <> ?', [$date, $userInfo[0]->destination, $userID]);
+        //echo "<pre>"; print_r($messages); echo "</pre>";
+        $riders = array();
+        $drivers = array();
+        $requestNum = array();
+        $offerNum = array();
+        $type = null;
+        $coord = explode(",", $userInfo[0]->coordinate);
+        $seats = $userInfo[0]->seatsNumber;
+        if($userInfo[0]->category == "requestRide"){
+                $riders[] = array(floatval($coord[0]), floatval($coord[1]));
+                $requestNum[] = $seats;
+                $type = "rider";
+        }else{
+                $drivers[] = array(floatval($coord[0]), floatval($coord[1]));
+                $offerNum[] = $seats;
+                $type = "driver";
+        }
+        foreach ($messages as $msg) {
+            $coord = explode(",", $msg->coordinate);
+            $seats = $msg->seatsNumber;
+            if($msg->category == "requestRide"){
+                $riders[] = array(floatval($coord[0]), floatval($coord[1]));
+                $requestNum[] = $seats;
+            }else{
+                $drivers[] = array(floatval($coord[0]), floatval($coord[1]));
+                $offerNum[] = $seats;
+            }
+        }
+        echo "<pre>"; print_r($riders); echo "</pre>";
+        echo "<pre>"; print_r($drivers); echo "</pre>";
+        //$locs = $this->cluster(); // get original matched points from DB
+        //$riders = $locs[0];
+        //$drivers = $locs[1];
         $res = null;
         $path = null;
         Mapper::map(
@@ -230,13 +230,16 @@ class MessageController extends Controller
                 'eventAfterLoad' => 'styleMap(maps[0].map);'
             ]
         );
-        return view('messages.analysis',compact( 'riders', 'drivers', 'res','path'));//
+        return view('messages.analysis',compact( 'riders', 'drivers', 'res','path', 'requestNum', 'offerNum', 'type'));//
     }
 
     public function recommend(Requests\MessageRequest $request)
     {
         $riders = null;
         $drivers = null;
+        $requestNum = null;
+        $offerNum = null;
+        $type = null;
         $data = $request->get('data');
         $res = $this->getDistance($data); // build MST
         $path = $this -> TSP($res); // compute TSP
@@ -251,7 +254,9 @@ class MessageController extends Controller
                 'eventAfterLoad' => 'generate(maps[0].map);'
             ]
         );
-        return view('messages.analysis',compact( 'riders', 'drivers', 'res','path'));//
+        echo "<pre>"; print_r($res); echo "</pre>";
+        echo "<pre>"; print_r($path); echo "</pre>";
+        return view('messages.analysis',compact('riders', 'drivers', 'res','path', 'requestNum', 'offerNum', 'type'));//
     }
 
     public function search()
@@ -301,7 +306,6 @@ class MessageController extends Controller
 
     public function create()
     {   
-        //$option = 1;
         $curLocation = null;
         $loc = null;
         if (Auth::check()) {
@@ -357,14 +361,10 @@ class MessageController extends Controller
 
     public function createIP() // get location by IP
     {
-
         $options = array(
             CURLOPT_RETURNTRANSFER => true,     // return web page
             CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
         );
-        //$location = GeoIP::getLocation();
-        //$lat = $location["lat"];
-        //$lon = $location["lon"];
         $lat = 40.12;
         $lon = -88.25;
         $latlng = strval($lat).",".strval($lon);

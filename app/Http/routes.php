@@ -31,7 +31,7 @@ Route::get('message/search','MessageController@search');
 Route::post('message/result','MessageController@result');
 
 Route::get('message/create','MessageController@create');
-Route::get('message/analysis','MessageController@analysis');
+Route::post('message/analysis','MessageController@analysis');
 
 Route::get('message/createIP','MessageController@createIP');
 Route::post('message/createIII', 'MessageController@createIII');
@@ -44,14 +44,12 @@ Route::get('message/edit/{id}','MessageController@edit');
 Route::post('message/update','MessageController@update');
 Route::delete('{id}', 'MessageController@delete');
 //------------------------------------------------------------------
-//Route::get('/','ArticleController@index');
 Route::get('articles/{id}','ArticleController@show'); // another router
 Route::get('article/create','ArticleController@create');
 Route::post('article/store','ArticleController@store');
 Route::get('article/edit/{id}','ArticleController@edit');
 Route::post('article/update','ArticleController@update');
-//Route::delete('{id}', 'ArticleController@delete');
-//Route::get('{id}', 'ArticleController@delete');
+//------------------------------------------------------------------
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

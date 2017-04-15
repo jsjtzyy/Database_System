@@ -34,23 +34,20 @@
     @endforeach
 	<a class="more-link-custom" href="/message/create"><span><i>NEW POST</i></span></a>
 	<a class="more-link-custom" href="/message/search"><span><i>SEARCH</i></span></a>
-	@foreach($matchUserPairs as $pair)
-		<article class="format-image group">
-			<h2 class="post-title pad"> Potential pairs:</h2>
-			<div class="post-inner">
-				<div class="post-content pad">
-					<div class="entry custome">
-						Provider userID: {{ $pair->provider }}; Requestor userID:  {{ $pair->requestor }}
-					</div>
-				</div>
-			</div>
-		</article>
-	@endforeach
-	<a class="more-link-custom" href="/message/analysis"><span><i>See who can go with me</i></span></a>
 
-<!-- 
-<div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
+<!-- 	<a class="more-link-custom" href="/message/analysis"><span><i>See who can go with me</i></span></a>
  -->
+{!! Form::open(['url'=>'message/analysis']) !!}
+    <div class="form-group" >
+        {!! Form::label('date','Select Date:') !!}
+        {!! Form::text('date',null,['class'=>'form-control', 'data-provide' => 'datepicker', 
+                                    'data-date-format' => 'yyyy-mm-dd']) !!}
+    </div>
+    <div class="form-group">
+       {!! Form::submit('See Who Can Go with Me',['class'=>'btn btn-success form-control']) !!}
+   	</div>
+{!! Form::close() !!}
+
 <script>
 
 </script>

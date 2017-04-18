@@ -67,6 +67,14 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('movie/update','MovieController@update');
 });
 
+//-----------------------------------------------Restaurant
+Route::group(['middleware' => 'auth'], function(){
+	Route::resource('restaurant','RestaurantController',[
+		'only' => ['index','store','show','destroy','create','edit'],
+	]);
+	Route::post('restaurant/update','RestaurantController@update');
+});
+
 
 
 

@@ -24,12 +24,15 @@
         <link rel='stylesheet' href="/css/bootstrap.min.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/css/bootstrap-datepicker.css" type='text/css' media='all'/>
         <link rel='stylesheet' href="/css/bootstrap-timepicker.css" type='text/css' media='all'/>
-        
+        <link rel='stylesheet' href="/css/bootstrap-datetimepicker.css" type='text/css' media='all'/>
+
+
         <script type='text/javascript' src="/js/all.js"></script>
         <script type='text/javascript' src="/js/jquery.js"></script>
         <script type='text/javascript' src="/js/bootstrap.min.js"></script>
         <script type='text/javascript' src="/js/bootstrap-datepicker.js"></script>
         <script type='text/javascript' src="/js/bootstrap-timepicker.js"></script>
+        <script type='text/javascript' src="/js/bootstrap-datetimepicker.js"></script>
         
     </head>
     <body>

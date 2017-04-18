@@ -57,3 +57,15 @@ Route::get('/home', 'HomeController@index');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+//-----------------------------------------------Movie
+Route::group(['middleware' => 'auth'], function(){
+	Route::resource('movie','MovieController',[
+		'only' => ['index','store','show','destroy','create','edit'],
+	]);
+	Route::post('movie/update','MovieController@update');
+});
+
+
+
+
+

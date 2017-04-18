@@ -54,11 +54,11 @@ Route::delete('{id}', 'MessageController@delete');
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+//-----------------------------------------------Profile
+Route::get('profile', 'UserController@profile')->name('profile');
+Route::get('profile/edit', 'UserController@edit')->name('profile.edit');
+Route::post('profile/update', 'UserController@update')->name('profile.update');
 
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
 //-----------------------------------------------Movie
 Route::group(['middleware' => 'auth'], function(){
 	Route::resource('movie','MovieController',[

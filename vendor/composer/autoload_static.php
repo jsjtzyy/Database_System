@@ -14,6 +14,7 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
@@ -61,6 +62,7 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
         array (
             'Psy\\' => 4,
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
         ),
         'M' => 
@@ -73,7 +75,12 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
         ),
         'I' => 
         array (
+            'Intervention\\Image\\' => 19,
             'Illuminate\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
         ),
         'F' => 
         array (
@@ -192,6 +199,10 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -204,9 +215,17 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
+        'Intervention\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
         'Faker\\' => 
         array (
@@ -285,9 +304,7 @@ class ComposerStaticInitf8ca677210f6f2ec138e7b22a76b4723
     );
 
     public static $classMap = array (
-        'CreateMoviesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_14_210309_create_movies_table.php',
         'CreateOfferRideTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_11_003636_create_offerRide_table.php',
-        'CreateRestaurantsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_15_002448_create_restaurants_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_12_214512_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',

@@ -1,10 +1,9 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <h1>Create a New Post</h1>
     {!! Form::open(['url'=>'message/store']) !!}
 
-	<div class="form-group">
+	  <div class="form-group">
        {!! Form::label('destination','Destination:') !!}
        {!! Form::text('destination',null,['class'=>'form-control']) !!}
    	</div>
@@ -67,12 +66,6 @@
 
  <!-- ************************************************************ -->
 <script type="text/javascript">
-
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
 
 var globalMap = null;
 var res = null;

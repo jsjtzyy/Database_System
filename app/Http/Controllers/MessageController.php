@@ -164,9 +164,15 @@ class MessageController extends Controller
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 
-    public function index()
+    public function index($category)
     {
-        $messages = DB::select('SELECT * FROM messageOfferRide ORDER BY msgID');
+        if(is_null($category)) {
+            $messages = DB::select('SELECT * FROM messageOfferRide ORDER BY msgID');
+        } else if ($category == 'ride') {
+            $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? OR category = ? ORDER BY msgID', ['offerRide','requestRide']);
+        } else {
+            $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? ORDER BY msgID', [$category]);
+        }
         /*
         $matchUserPairs = 
         DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
@@ -302,6 +308,26 @@ class MessageController extends Controller
         }
     }
 
+    public function showAll()
+    {
+        return $this -> index(NULL);
+    }
+
+    public function showRide()
+    {
+        return $this -> index('ride');
+    }
+
+    public function showMovie()
+    {
+        return $this -> index('Mo');
+    }
+
+    public function showRestaurant()
+    {
+        return $this -> index('Re');
+    }
+
     public function create()
     {   
         $curLocation = null;
@@ -401,7 +427,7 @@ class MessageController extends Controller
                 $request->get('date'), $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, Auth::user()->id
             ]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }
@@ -411,7 +437,7 @@ class MessageController extends Controller
     {
         $messages =  DB::select('SELECT * FROM messageOfferRide WHERE msgID = ?', [$id]);
         if(is_null($messages)){
-            redirect('/');
+            redirect('dashboard');
         }
         if (Auth::check()) {
             return view('messages.edit',compact('messages'));
@@ -432,7 +458,7 @@ class MessageController extends Controller
                 $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, $request->get('msgID')
             ]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }
@@ -440,7 +466,7 @@ class MessageController extends Controller
     public function delete($id){
         DB::delete('delete from messageOfferRide WHERE msgID = ?',[$id]);
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('dashboard');
         } else {
             return view('auth.login');
         }

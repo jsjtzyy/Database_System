@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
 	<h1>Search Results: </h1>
 	@foreach($messages as $message)

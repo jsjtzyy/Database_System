@@ -161,6 +161,8 @@ return [
         /* GeoIp Provider */
         Torann\GeoIP\GeoIPServiceProvider::class,
 
+        Intervention\Image\ImageServiceProvider::class,
+
     ],
 
     /*
@@ -210,6 +212,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'GeoIP' => Torann\GeoIP\Facades\GeoIP::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

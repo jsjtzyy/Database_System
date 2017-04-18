@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
     <h1>Edit Movie </h1>
     {!! Form::model($movie,['url'=>'movie/update']) !!}

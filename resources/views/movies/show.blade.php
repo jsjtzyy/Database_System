@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
         <article class="format-image group">
 

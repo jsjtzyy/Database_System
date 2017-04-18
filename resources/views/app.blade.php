@@ -47,6 +47,18 @@
                 </a>
             </div>
 
+            <ul class="nav navbar-nav">
+                <li><a href="../dashboard">Dashboard</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../dashboard/ride"><i class="fa fa-car"></i> Ride</a></li>
+                        <li><a href="../dashboard/movie"><i class="fa fa-film"></i> Movie</a></li>
+                        <li><a href="../dashboard/restaurant"><i class="fa fa-cutlery"></i> Restaurant</a></li>
+                    </ul>
+                </li>
+            </ul>
+
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
 
                 <!-- Right Side Of Navbar -->

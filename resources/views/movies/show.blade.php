@@ -52,7 +52,7 @@
                     <div class="entry custome">
                         Phone: {{ $movie->phone_number }}
                         <br>
-                        Email: {{ $movie->email }}
+                        Email: {{ $movie->Email }}
                     </div>
                 </div>
             </div>

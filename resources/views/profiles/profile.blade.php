@@ -34,7 +34,7 @@
                     <ul class="list-group">
                     @foreach($simusers as $simuser)
                         <li class="list-group-item">
-                            <a href="profile/{{$simuser->ID}}"> {{ $simuser->name }}</a>
+                            <a href="/profile/{{$simuser->ID}}"> {{ $simuser->name }}</a>
                         </li>
                     @endforeach
                     </ul>

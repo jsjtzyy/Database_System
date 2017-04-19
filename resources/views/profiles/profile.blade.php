@@ -32,7 +32,7 @@
                         @foreach($simusers as $simuser)
                             <article class="format-image group">
                                 <h4 class="post-inner pad">
-                                    <a href="profile1/{{$simuser->ID}}"> {{ $simuser->name }}</a>
+                                    <a href="profile/{{$simuser->ID}}"> {{ $simuser->name }}</a>
                                 </h4>
                             </article>
                         @endforeach

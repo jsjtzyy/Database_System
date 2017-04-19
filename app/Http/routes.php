@@ -58,7 +58,7 @@ Route::auth();
 Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('profile/edit', 'UserController@edit')->name('profile.edit');
 Route::post('profile/update', 'UserController@update')->name('profile.update');
-Route::get('profile1/{id}', 'UserController@profile1')->name('profile');
+Route::get('profile/{id}', 'UserController@profile1')->name('profile');
 
 //-----------------------------------------------Movie
 Route::group(['middleware' => 'auth'], function(){

@@ -66,12 +66,15 @@ class Movie extends Model
 				$attributes['start_at'],
 				Carbon::now()
 			]);
+		$post_id = DB::getPdo()->lastInsertId();
+        DB::insert('insert into posts (userID, post_category, post_ID) values (?, ?, ?)',[ $attributes['userID'], 'movie', $post_id]);
 	}
 
 	public static function destroy($id){
 		$result = DB::select('select * from movies where id = :id', ['id' => $id]);
 		if (count($result) != 0){
 			DB::delete('delete from movies where id = :id',['id' => $id]);
+			DB::delete('delete from posts WHERE post_ID = ? AND post_category = ?',[$id, 'movie']);
 		}
 	}
 

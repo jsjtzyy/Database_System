@@ -467,7 +467,7 @@ class MessageController extends Controller
     }
     public function delete($id){
         DB::delete('delete from messageOfferRide WHERE msgID = ?',[$id]);
-        DB::delete('delete from posts WHERE post_ID = ? AND post_category = ?',[$id, 'ride');
+        DB::delete('delete from posts WHERE post_ID = ? AND post_category = ?',[$id, 'ride']);
         if (Auth::check()) {
             return redirect('dashboard');
         } else {

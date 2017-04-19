@@ -19,10 +19,10 @@ class UserController extends Controller
         $user = Auth::user();
         $ride = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and (category = ? or category = ?) ORDER BY msgID', 
                             [$user->id, 'offerRide', 'requestRide']);
-        $movie = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and category = ? ORDER BY msgID', 
-                            [$user->id, 'Mo']);
-        $restaurant = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and category = ? ORDER BY msgID', 
-                                [$user->id, 'Re']);
+        $movie = DB::select('SELECT * FROM movies WHERE userID = ? ORDER BY id', 
+                            [$user->id]);
+        $restaurant = DB::select('SELECT * FROM restaurants WHERE userID = ? ORDER BY id', 
+                                [$user->id]);
 
         $simUsers = DB::select('SELECT T.ID, T.name, T.Cnt / ((SELECT SUM(T1.num) FROM 
                                 (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T1 WHERE T1.userID = ?) 

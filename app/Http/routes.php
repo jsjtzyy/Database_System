@@ -65,6 +65,9 @@ Route::group(['middleware' => 'auth'], function(){
 		'only' => ['index','store','show','destroy','create','edit'],
 	]);
 	Route::post('movie/update','MovieController@update');
+	Route::get('movie/{id}','MovieController@show');
+	Route::get('movie/edit/{id}','MovieController@edit');
+	Route::delete('movie/delete/{id}', 'MovieController@destroy');
 });
 
 //-----------------------------------------------Restaurant
@@ -73,6 +76,9 @@ Route::group(['middleware' => 'auth'], function(){
 		'only' => ['index','store','show','destroy','create','edit'],
 	]);
 	Route::post('restaurant/update','RestaurantController@update');
+	Route::get('restaurant/{id}','RestaurantController@show');
+	Route::get('restaurant/edit/{id}','RestaurantController@edit');
+	Route::delete('restaurant/delete/{id}', 'RestaurantController@destroy');
 });
 
 

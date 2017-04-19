@@ -86,7 +86,7 @@
                             @foreach($movies as $movie)
                             <article class="format-image group">
                                 <h2 class="post-title pad">
-                                    <a href="/messages/{{ $movie->msgID }}"> {{ $movie->destination }}</a>
+                                    <a href="/movie/{{ $movie->id }}"> {{ $movie->movie_name }}</a>
                                 </h2>
                                 <div class="post-inner">
                                     <div class="post-deco">
@@ -100,11 +100,11 @@
                                         <div class="entry custome">
                                             {{ $movie->content }}
                                         </div>
-                                        <a class="more-link-custom" href="message/edit/{{ $movie->msgID }}"><span><i>Edit</i></span></a>
+                                        <a class="more-link-custom" href="movie/edit/{{ $movie->id }}"><span><i>Edit</i></span></a>
                                     </div>
                                 </div>
                             </article>
-                            <form action="{{ $movie->msgID }}" method="POST">
+                            <form action="movie/delete/{{ $movie->id }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -116,7 +116,7 @@
                             @foreach($restaurants as $restaurant)
                             <article class="format-image group">
                                 <h2 class="post-title pad">
-                                    <a href="/messages/{{ $restaurant->msgID }}"> {{ $restaurant->destination }}</a>
+                                    <a href="/restaurant/{{ $restaurant->id }}"> {{ $restaurant->restaurant_name }}</a>
                                 </h2>
                                 <div class="post-inner">
                                     <div class="post-deco">
@@ -130,11 +130,11 @@
                                         <div class="entry custome">
                                             {{ $restaurant->content }}
                                         </div>
-                                        <a class="more-link-custom" href="message/edit/{{ $restaurant->msgID }}"><span><i>Edit</i></span></a>
+                                        <a class="more-link-custom" href="restaurant/edit/{{ $restaurant->id }}"><span><i>Edit</i></span></a>
                                     </div>
                                 </div>
                             </article>
-                            <form action="{{ $restaurant->msgID }}" method="POST">
+                            <form action="restaurant/delete/{{ $restaurant->id }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <button type="submit" class="btn btn-danger">Delete</button>

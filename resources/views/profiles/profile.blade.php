@@ -100,11 +100,11 @@
                                         <div class="entry custome">
                                             {{ $movie->content }}
                                         </div>
-                                        <a class="more-link-custom" href="movie/edit/{{ $movie->id }}"><span><i>Edit</i></span></a>
+                                        <a class="more-link-custom" href="movie/{{ $movie->id }}/edit/"><span><i>Edit</i></span></a>
                                     </div>
                                 </div>
                             </article>
-                            <form action="movie/delete/{{ $movie->id }}" method="POST">
+                            <form action="movie/{{ $movie->id }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -130,11 +130,11 @@
                                         <div class="entry custome">
                                             {{ $restaurant->content }}
                                         </div>
-                                        <a class="more-link-custom" href="restaurant/edit/{{ $restaurant->id }}"><span><i>Edit</i></span></a>
+                                        <a class="more-link-custom" href="restaurant/{{ $restaurant->id }}/edit/"><span><i>Edit</i></span></a>
                                     </div>
                                 </div>
                             </article>
-                            <form action="restaurant/delete/{{ $restaurant->id }}" method="POST">
+                            <form action="restaurant/{{ $restaurant->id }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <button type="submit" class="btn btn-danger">Delete</button>

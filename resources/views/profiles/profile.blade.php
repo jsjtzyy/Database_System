@@ -25,20 +25,20 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Similar Users
-                    @if (count($simusers) == 0)
+                <div class="panel-heading">Similar Users</div>
+                @if (count($simusers) == 0)
+                    <div class="panel-body">
                         <p>Please post something first!</p>
-                    @else    
-                        @foreach($simusers as $simuser)
-                            <article class="format-image group">
-                                <h4 class="post-inner pad">
-                                    <a href="profile/{{$simuser->ID}}"> {{ $simuser->name }}</a>
-                                </h4>
-                            </article>
-                        @endforeach
-                    @endif    
-                </div>
-
+                    </div>
+                @else    
+                    <ul class="list-group">
+                    @foreach($simusers as $simuser)
+                        <li class="list-group-item">
+                            <a href="profile/{{$simuser->ID}}"> {{ $simuser->name }}</a>
+                        </li>
+                    @endforeach
+                    </ul>
+                @endif
             </div>
         </div>
         <div class="col-md-8">

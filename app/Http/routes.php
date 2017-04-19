@@ -55,10 +55,9 @@ Route::delete('{id}', 'MessageController@delete');
 Route::auth();
 
 //-----------------------------------------------Profile
-Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('profile/edit', 'UserController@edit')->name('profile.edit');
 Route::post('profile/update', 'UserController@update')->name('profile.update');
-Route::get('profile/{id}', 'UserController@profile1')->name('profile');
+Route::get('profile/{id}', 'UserController@profile')->name('profile');
 
 //-----------------------------------------------Movie
 Route::group(['middleware' => 'auth'], function(){

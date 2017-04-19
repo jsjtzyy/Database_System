@@ -7,23 +7,23 @@
 
     <title>GoTogether</title>
     
-    <link rel='stylesheet' href="/public/css/all.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/noty.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/fileinput.css" type='text/css' media='all'/>
-    <link rel="stylesheet" href="/public/css/font-awesome.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap.min.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap-datepicker.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap-timepicker.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap-datetimepicker.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/all.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/noty.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/fileinput.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/font-awesome.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/bootstrap.min.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/bootstrap-datepicker.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/bootstrap-timepicker.css') }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{ asset('/css/bootstrap-datetimepicker.css') }}" type='text/css' media='all'/>
 
-    <script type='text/javascript' src="/public/js/all.js"></script>
-    <script type='text/javascript' src="/public/js/noty.js"></script>
-    <script type='text/javascript' src="/public/js/jquery.js"></script>
-    <script type='text/javascript' src="/public/js/fileinput.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap-datepicker.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap-timepicker.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap-datetimepicker.js"></script>
+    <script type='text/javascript' src="{{ asset('/js/all.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/noty.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/jquery.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/fileinput.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/bootstrap.min.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/bootstrap-datepicker.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/bootstrap-timepicker.js') }}"></script>
+    <script type='text/javascript' src="{{ asset('/js/bootstrap-datetimepicker.js') }}"></script>
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -73,7 +73,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+                                <li><a href="/profile/{{ Auth::user()->id }}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             </ul>
                         </li>

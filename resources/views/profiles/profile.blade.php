@@ -25,7 +25,20 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Similar Users</div>
+                <div class="panel-heading">Similar Users
+                    @if (count($simusers) == 0)
+                        <p>Please post something first!</p>
+                    @else    
+                        @foreach($simusers as $simuser)
+                            <article class="format-image group">
+                                <h4 class="post-inner pad">
+                                    <p> {{ $simuser->name }}</p>
+                                </h4>
+                            </article>
+                        @endforeach
+                    @endif    
+                </div>
+
             </div>
         </div>
         <div class="col-md-8">

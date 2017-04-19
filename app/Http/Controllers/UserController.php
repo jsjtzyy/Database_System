@@ -23,8 +23,17 @@ class UserController extends Controller
                             [$user->id, 'Mo']);
         $restaurant = DB::select('SELECT * FROM messageOfferRide WHERE userID = ? and category = ? ORDER BY msgID', 
                                 [$user->id, 'Re']);
+
+        $simUsers = DB::select('SELECT T.ID, T.name, T.Cnt / ((SELECT SUM(T1.num) FROM 
+                                (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T1 WHERE T1.userID = ?) 
+                              + (SELECT SUM(T2.num) FROM 
+                                (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T2 WHERE T2.userID = T.ID)) AS sim
+                                FROM (SELECT m2.userID as ID, COUNT(*) as Cnt, u.name as name FROM posts m1, posts m2, users u
+                                WHERE m2.userID <> m1.userID AND m1.post_category = m2.post_category AND m1.userID = ?  AND m2.userID = u.id Group BY m2.userID) as T 
+                                Group by T.ID ORDER BY sim DESC LIMIT 5', [$user->id, $user->id]);
+
     	if (Auth::check()) {
-    		return view('profiles.profile', array('user' => $user, 'rides' => $ride, 'movies' => $movie, 'restaurants' => $restaurant));
+    		return view('profiles.profile', array('user' => $user, 'rides' => $ride, 'movies' => $movie, 'restaurants' => $restaurant, 'simusers' => $simUsers));
     	} else {
     		return view('auth.login');
     	}
@@ -54,4 +63,5 @@ class UserController extends Controller
     	return redirect()->route('profile', array('user' => Auth::user()))
     					 ->with('success','Avatar updated.');
     }
+
 }

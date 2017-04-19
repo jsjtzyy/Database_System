@@ -7,21 +7,23 @@
 
     <title>GoTogether</title>
     
-    <link rel='stylesheet' href="/public/css/all.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/noty.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/fileinput.css" type='text/css' media='all'/>
-    <link rel="stylesheet" href="/public/css/font-awesome.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap.min.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap-datepicker.css" type='text/css' media='all'/>
-    <link rel='stylesheet' href="/public/css/bootstrap-timepicker.css" type='text/css' media='all'/>
-    
-    <script type='text/javascript' src="/public/js/all.js"></script>
-    <script type='text/javascript' src="/public/js/noty.js"></script>
-    <script type='text/javascript' src="/public/js/jquery.js"></script>
-    <script type='text/javascript' src="/public/js/fileinput.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap-datepicker.js"></script>
-    <script type='text/javascript' src="/public/js/bootstrap-timepicker.js"></script>    
+    <link rel='stylesheet' href="/css/all.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/noty.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/fileinput.css" type='text/css' media='all'/>
+    <link rel="stylesheet" href="/css/font-awesome.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/bootstrap.min.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/bootstrap-datepicker.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/bootstrap-timepicker.css" type='text/css' media='all'/>
+    <link rel='stylesheet' href="/css/bootstrap-datetimepicker.css" type='text/css' media='all'/>
+
+    <script type='text/javascript' src="/js/all.js"></script>
+    <script type='text/javascript' src="/js/noty.js"></script>
+    <script type='text/javascript' src="/js/jquery.js"></script>
+    <script type='text/javascript' src="/js/fileinput.js"></script>
+    <script type='text/javascript' src="/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="/js/bootstrap-datepicker.js"></script>
+    <script type='text/javascript' src="/js/bootstrap-timepicker.js"></script>
+    <script type='text/javascript' src="/js/bootstrap-datetimepicker.js"></script>
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -49,7 +51,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="../dashboard/ride"><i class="fa fa-car"></i> Ride</a></li>
                         <li><a href="/movie"><i class="fa fa-film"></i> Movie</a></li>
-                        <li><a href="../dashboard/restaurant"><i class="fa fa-cutlery"></i> Restaurant</a></li>
+                        <li><a href="/restaurant"><i class="fa fa-cutlery"></i> Restaurant</a></li>
                     </ul>
                 </li>
             </ul>

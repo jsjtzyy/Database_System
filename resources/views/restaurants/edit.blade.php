@@ -12,17 +12,11 @@
     <div class="form-group">
         {!! Form::label('dish_category','Category:') !!}
         {!! Form::select('dish_category',
-                ['action' => 'action',
-                 'adventure' => 'adventure',
-                 'comedy' => 'comedy',
-                 'crime_gangster' => 'crime&gangster',
-                 'drama' => 'drama',
-                 'epics_historical' => 'epics/historical',
-                 'horror' => 'horror',
-                 'musicals_dance' => 'musicals/dance',
-                 'science_fiction' => 'science fiction',
-                 'war' => 'war',
-                 'westerns' => 'westerns']
+                ['african_cuisines' => 'African Cuisines',
+                 'americans_cuisines' => 'Americans Cuisines',
+                 'asian_cuisines' => 'Asian Cuisines',
+                 'european_cuisines' => 'European Cuisines',
+                 'oceanic_cuisines' => 'Oceanic Cuisines']
                  ,$restaurant->dish_category,
         		['class' => 'form-control', 'placeholder' => 'Please select a category']) !!}
     </div>

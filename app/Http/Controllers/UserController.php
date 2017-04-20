@@ -49,7 +49,7 @@ class UserController extends Controller
         $restaurant = DB::select('SELECT * FROM restaurants WHERE userID = ? ORDER BY id', 
                                 [$id]);
 
-        $simUsers = DB::select('SELECT T.ID, T.name, T.Cnt / ((SELECT SUM(T1.num) FROM 
+        $simUsers = DB::select('SELECT T.ID, T.name, 2*T.Cnt / ((SELECT SUM(T1.num) FROM 
                                 (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T1 WHERE T1.userID = ?) 
                               + (SELECT SUM(T2.num) FROM 
                                 (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T2 WHERE T2.userID = T.ID)) AS sim

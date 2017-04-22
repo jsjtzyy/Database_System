@@ -20,7 +20,7 @@
 
   <body>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -68,12 +68,59 @@
     </nav>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Gotogether</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="dashboard" role="button">Learn more &raquo;</a></p>
-      </div>
+    <div class="container">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+          <a href="dashboard/ride" target="_blank">
+            <img src="/media/ride.jpg"  alt="..." >
+            <div class="carousel-caption">
+              <div class="full-width text-center">
+                Ride
+              </div>
+            </div>
+          </div>
+          </a>
+          <div class="item">
+          <a href='movie' target="_blank">
+            <img src="/media/movie.jpg" alt="...">
+            <div class="carousel-caption">
+            <div class="full-width text-center">
+              Movie
+            </div>
+            </div>
+          </div>
+          </a>
+          <div class="item">
+          <a href='restaurant' target="_blank">
+            <img src="/media/restaurant.jpg" alt="...">
+            <div class="carousel-caption">
+            <div class="full-width text-center">
+              Restaurant
+            </div>
+            </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+        </div>
     </div>
 
     <div class="container">
@@ -81,17 +128,17 @@
       <div class="row">
         <div class="col-md-4">
           <h2>Restaurant</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p>See who can eat with you together. </p>
           <p><a class="btn btn-default" href="restaurant" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <h2>Movie</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p>See who can go to movies with you together. </p>
           <p><a class="btn btn-default" href="movie" role="button">View details &raquo;</a></p>
        </div>
         <div class="col-md-4">
           <h2>Ride</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p>See who can offer a ride/request a ride.</p>
           <p><a class="btn btn-default" href="dashboard/ride" role="button">View details &raquo;</a></p>
         </div>
       </div>

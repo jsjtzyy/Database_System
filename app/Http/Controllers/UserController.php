@@ -48,8 +48,12 @@ class UserController extends Controller
                             [$id]);
         $restaurant = DB::select('SELECT * FROM restaurants WHERE userID = ? ORDER BY id', 
                                 [$id]);
-
-        $simUsers = DB::select('SELECT T.ID, T.name, 2*T.Cnt / ((SELECT SUM(T1.num) FROM 
+            
+        $matchUsers = DB::select('SELECT users.id AS id, users.name AS name, m2.category AS category
+                                  FROM messageOfferRide m1 JOIN messageOfferRide m2 JOIN users ON m1.destination = m2.destination AND users.id = m2.userID
+                                  WHERE m1.userID = ? AND ((m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber) OR (m1.category = ? AND m2.category = ? AND m1.seatsNumber <= m2.seatsNumber)) AND m1.date = m2.date',[$id,'offerRide','requestRide','requestRide','offerRide']);
+        
+        $simUsers = DB::select('SELECT T.ID, T.name, 2*T.Cnt / ((SELECT SUM(T1.num) FROM
                                 (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T1 WHERE T1.userID = ?) 
                               + (SELECT SUM(T2.num) FROM 
                                 (SELECT userID, POWER(Count(*),2) as num FROM posts GROUP BY userID, post_category) as T2 WHERE T2.userID = T.ID)) AS sim
@@ -58,7 +62,7 @@ class UserController extends Controller
                                 Group by T.ID ORDER BY sim DESC LIMIT 5', [$id, $id]);
 
         if (Auth::check()) {
-            return view('profiles.profile', array('user' => $user[0], 'rides' => $ride, 'movies' => $movie, 'restaurants' => $restaurant, 'simusers' => $simUsers));
+            return view('profiles.profile', array('user' => $user[0], 'rides' => $ride, 'movies' => $movie, 'restaurants' => $restaurant, 'simusers' => $simUsers, 'matchusers' => $matchUsers));
         } else {
             return view('auth.login');
         }

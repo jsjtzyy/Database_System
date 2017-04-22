@@ -40,6 +40,27 @@
                     </ul>
                 @endif
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Matched Rides</div>
+                @if (count($matchusers) == 0)
+                    <div class="panel-body">
+                        <p>No matched activity!</p>
+                    </div>
+                @else    
+                    <ul class="list-group">
+                    @foreach($matchusers as $matchuser)
+                        <li class="list-group-item">
+                            <a href="/profile/{{$matchuser->id}}"> {{ $matchuser->name }}</a>
+                            @if ($matchuser->category=='offerRide')
+                                can offer a ride.
+                            @else
+                                need a ride.
+                            @endif
+                        </li>
+                    @endforeach
+                    </ul>
+                @endif
+            </div>
         </div>
         <div class="col-md-8">
             <div class="panel panel-default">
@@ -70,15 +91,19 @@
                                         <div class="entry custome">
                                             {{ $ride->content }}
                                         </div>
-                                        <a class="more-link-custom" href="message/edit/{{ $ride->msgID }}"><span><i>Edit</i></span></a>
+                                        @if ($ride->userID == Auth::user()->id)
+                                            <a class="more-link-custom" href="message/edit/{{ $ride->msgID }}"><span><i>Edit</i></span></a>
+                                        @endif
                                     </div>
                                 </div>
                             </article>
-                            <form action="{{ $ride->msgID }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            @if ($ride->userID == Auth::user()->id)
+                                <form action="{{ $ride->msgID }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
                             @endforeach
                         </div>
                             
@@ -100,15 +125,19 @@
                                         <div class="entry custome">
                                             {{ $movie->content }}
                                         </div>
-                                        <a class="more-link-custom" href="movie/{{ $movie->id }}/edit/"><span><i>Edit</i></span></a>
+                                        @if ($movie->userID == Auth::user()->id)
+                                            <a class="more-link-custom" href="movie/{{ $movie->id }}/edit/"><span><i>Edit</i></span></a>
+                                        @endif
                                     </div>
                                 </div>
                             </article>
-                            <form action="movie/{{ $movie->id }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            @if ($movie->userID == Auth::user()->id)
+                                <form action="movie/{{ $movie->id }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
                             @endforeach
                         </div>
 
@@ -130,15 +159,19 @@
                                         <div class="entry custome">
                                             {{ $restaurant->content }}
                                         </div>
-                                        <a class="more-link-custom" href="restaurant/{{ $restaurant->id }}/edit/"><span><i>Edit</i></span></a>
+                                        @if ($restaurant->userID == Auth::user()->id)
+                                            <a class="more-link-custom" href="restaurant/{{ $restaurant->id }}/edit/"><span><i>Edit</i></span></a>
+                                        @endif
                                     </div>
                                 </div>
                             </article>
-                            <form action="restaurant/{{ $restaurant->id }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            @if ($restaurant->userID == Auth::user()->id)
+                                <form action="restaurant/{{ $restaurant->id }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
                             @endforeach
                         </div>
                     </div>

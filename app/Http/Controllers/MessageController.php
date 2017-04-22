@@ -173,11 +173,7 @@ class MessageController extends Controller
         } else {
             $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? ORDER BY msgID', [$category]);
         }
-        /*
-        $matchUserPairs = 
-        DB::select('SELECT m1.userID AS provider, m2.userID AS requestor FROM messageOfferRide m1 JOIN messageOfferRide m2 ON       m1.destination = m2.destination
-        WHERE m1.category = ? AND m2.category = ? AND m1.seatsNumber >= m2.seatsNumber AND m1.date = m2.date',['offerRide','requestRide']);
-        */
+
         if (Auth::check()) {
           return view('messages.index',compact('messages'));//, 'matchUserPairs'
         } else {

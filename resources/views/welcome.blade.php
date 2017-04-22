@@ -56,12 +56,12 @@
             </ul>  
           @endif
           
-          <form method="get", action="message/create" class="navbar-form navbar-right">
+          {{-- <form method="get", action="message/create" class="navbar-form navbar-right">
             <button type="submit" href="message/create" class="btn btn-success">Post</button>
           </form>
           <form method="get", action="dashboard" class="navbar-form navbar-right">
             <button type="submit" href="dashboard" class="btn btn-success">View Post</button>
-          </form>
+          </form> --}}
           
         </div><!--/.navbar-collapse -->
       </div>

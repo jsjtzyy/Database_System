@@ -71,7 +71,7 @@
             @endforeach
         </ul>
     @endif
-    <a class="more-link-custom" href="/dashboard"><span><i>CANCEL</i></span></a>
+    <a class="more-link-custom" href="/movie"><span><i>CANCEL</i></span></a>
 
 
 

@@ -48,5 +48,5 @@
             @endforeach
         </ul>
     @endif
-    <a class="more-link-custom" href="/"><span><i>CANCEL</i></span></a>
+    <a class="more-link-custom" href="/ride"><span><i>CANCEL</i></span></a>
 @endsection

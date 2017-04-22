@@ -47,5 +47,5 @@
         </article>
     @endforeach
 
-    <a class="more-link-custom" href="/"><span><i>RETURN</i></span></a>
+    <a class="more-link-custom" href="/ride"><span><i>RETURN</i></span></a>
 @endsection

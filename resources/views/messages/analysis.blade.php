@@ -6,7 +6,7 @@
 	<div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
 </div>
 
-<a class="more-link-custom" href="/dashboard"><span><i>Return</i></span></a>
+<a class="more-link-custom" href="/ride"><span><i>Return</i></span></a>
 <button onclick="cluster()"> Cluster </button>
 <button onclick="match()"> Find potential passengers </button>
 {!! Form::open(['url'=>'message/recommend']) !!}

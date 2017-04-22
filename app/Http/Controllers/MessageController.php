@@ -425,7 +425,7 @@ class MessageController extends Controller
         $post_id = DB::getPdo()->lastInsertId();
         DB::insert('insert into posts (userID, post_category, post_ID) values (?, ?, ?)',[ Auth::user()->id, 'ride', $post_id]);
         if (Auth::check()) {
-            return redirect('dashboard');
+            return redirect('ride');
         } else {
             return view('auth.login');
         }
@@ -435,7 +435,7 @@ class MessageController extends Controller
     {
         $messages =  DB::select('SELECT * FROM messageOfferRide WHERE msgID = ?', [$id]);
         if(is_null($messages)){
-            redirect('dashboard');
+            redirect('ride');
         }
         if (Auth::check()) {
             return view('messages.edit',compact('messages'));
@@ -456,7 +456,7 @@ class MessageController extends Controller
                 $request->get('time'), $request->get('seatsNumber'), $request->get('curLocation'), $coordinate, $request->get('msgID')
             ]);
         if (Auth::check()) {
-            return redirect('dashboard');
+            return redirect('ride');
         } else {
             return view('auth.login');
         }
@@ -465,7 +465,7 @@ class MessageController extends Controller
         DB::delete('delete from messageOfferRide WHERE msgID = ?',[$id]);
         DB::delete('delete from posts WHERE post_ID = ? AND post_category = ?',[$id, 'ride']);
         if (Auth::check()) {
-            return redirect('dashboard');
+            return redirect('ride');
         } else {
             return view('auth.login');
         }

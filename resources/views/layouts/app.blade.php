@@ -45,7 +45,6 @@
             </div>
 
             <ul class="nav navbar-nav">
-                <li><a href="../dashboard">Dashboard</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category<span class="caret"></span></a>
                     <ul class="dropdown-menu">

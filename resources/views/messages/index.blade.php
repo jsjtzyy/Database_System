@@ -19,7 +19,7 @@
 	                {{ $message->content }}
 	            </div>
 	            @if ($message->userID == Auth::user()->id)
-				<a class="more-link-custom" href="message/edit/{{ $message->msgID }}"><span><i>Edit</i></span></a>
+				<a class="more-link-custom" href="/message/edit/{{ $message->msgID }}"><span><i>Edit</i></span></a>
 				@endif
 			</div>
 	    </div>

@@ -29,10 +29,10 @@ Route::get('signin', function () {
 });
 
 //Route::get('/','MessageController@index');
-Route::get('dashboard','MessageController@showAll');
-Route::get('dashboard/ride',"MessageController@showRide");
-Route::get('dashboard/movie',"MessageController@showMovie");
-Route::get('dashboard/restaurant',"MessageController@showRestaurant");
+//Route::get('dashboard','MessageController@showAll');
+Route::get('ride',"MessageController@showRide");
+//Route::get('dashboard/movie',"MessageController@showMovie");
+//Route::get('dashboard/restaurant',"MessageController@showRestaurant");
 
 Route::get('message/search','MessageController@search');
 Route::post('message/result','MessageController@result');

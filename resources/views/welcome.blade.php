@@ -80,7 +80,7 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
           <div class="item active">
-          <a href="dashboard/ride" target="_blank">
+          <a href="ride" target="_blank">
             <img src="/media/ride.jpg"  alt="..." >
             <div class="carousel-caption">
               <div class="full-width text-center">
@@ -139,7 +139,7 @@
         <div class="col-md-4">
           <h2>Ride</h2>
           <p>See who can offer a ride/request a ride.</p>
-          <p><a class="btn btn-default" href="dashboard/ride" role="button">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="ride" role="button">View details &raquo;</a></p>
         </div>
       </div>
 

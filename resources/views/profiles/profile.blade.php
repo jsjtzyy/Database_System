@@ -92,7 +92,7 @@
                                             {{ $ride->content }}
                                         </div>
                                         @if ($ride->userID == Auth::user()->id)
-                                            <a class="more-link-custom" href="message/edit/{{ $ride->msgID }}"><span><i>Edit</i></span></a>
+                                            <a class="more-link-custom" href="/message/edit/{{ $ride->msgID }}"><span><i>Edit</i></span></a>
                                         @endif
                                     </div>
                                 </div>
@@ -126,13 +126,13 @@
                                             {{ $movie->content }}
                                         </div>
                                         @if ($movie->userID == Auth::user()->id)
-                                            <a class="more-link-custom" href="movie/{{ $movie->id }}/edit/"><span><i>Edit</i></span></a>
+                                            <a class="more-link-custom" href="/movie/{{ $movie->id }}/edit/"><span><i>Edit</i></span></a>
                                         @endif
                                     </div>
                                 </div>
                             </article>
                             @if ($movie->userID == Auth::user()->id)
-                                <form action="movie/{{ $movie->id }}" method="POST">
+                                <form action="/movie/{{ $movie->id }}" method="POST">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -160,13 +160,13 @@
                                             {{ $restaurant->content }}
                                         </div>
                                         @if ($restaurant->userID == Auth::user()->id)
-                                            <a class="more-link-custom" href="restaurant/{{ $restaurant->id }}/edit/"><span><i>Edit</i></span></a>
+                                            <a class="more-link-custom" href="/restaurant/{{ $restaurant->id }}/edit/"><span><i>Edit</i></span></a>
                                         @endif
                                     </div>
                                 </div>
                             </article>
                             @if ($restaurant->userID == Auth::user()->id)
-                                <form action="restaurant/{{ $restaurant->id }}" method="POST">
+                                <form action="/restaurant/{{ $restaurant->id }}" method="POST">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-danger">Delete</button>

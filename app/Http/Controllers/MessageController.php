@@ -184,7 +184,16 @@ class MessageController extends Controller
     public function analysis(Requests\MessageRequest $request){
         $userID = Auth::user()->id;
         $date = $request->get('date');
-        $userInfo = DB::select('SELECT * FROM messageOfferRide m WHERE m.userID = ? AND m.date = ?', [$userID, $date]);
+        //$userInfo = DB::select('SELECT * FROM messageOfferRide m WHERE m.userID = ? AND m.date = ?', [$userID, $date]);
+        $userInfo = DB::select('SELECT * FROM messageOfferRide m WHERE m.userID = ?', [$userID]);
+        if($userInfo == null)
+        {
+            echo '<script language="javascript">';
+            echo 'alert("Please post your destination first!")';
+            echo '</script>';
+            $messages = DB::select('SELECT * FROM messageOfferRide WHERE category = ? OR category = ? ORDER BY msgID', ['offerRide','requestRide']);
+            return view('messages.index',compact('messages'));
+        }
         $messages = DB::select('SELECT m1.coordinate, m1.category, m1.seatsNumber FROM messageOfferRide m1 WHERE m1.date = ? AND m1.destination = ? AND userID <> ?', [$date, $userInfo[0]->destination, $userID]);
         //echo "<pre>"; print_r($messages); echo "</pre>";
         $riders = array();

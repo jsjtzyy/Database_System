@@ -46,27 +46,6 @@ class MessageController extends Controller
         }
     }
 
-    public function cluster(){  // k-means clustering
-        $riders = array(
-            array(40.05,-88.16), 
-            array(40.11, -88.25),
-            array(40.11, -88.20),
-            array(40.03, -88.18),
-            array(40.07, -88.17),
-            array(40.15, -88.15),
-            array(40.03, -88.26),
-            array(40.08, -88.24),
-            array(40.09, -88.16),
-            array(40.05, -88.16),
-            array(40.15, -88.20),
-            array(40.11, -88.30)
-            );
-        $drivers = array(
-            array(40.09, -88.22)
-            ); 
-        return array($riders, $drivers);
-    }
-
     public function getDistance($input){  // Kruscal MST Alogrithm
         // get distance between origin and destination
         $options = array(

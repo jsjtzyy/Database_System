@@ -4,3 +4,8 @@ Note: (yingyi zhang)
 
 Description:
     This project is implemented based on PHP Laravel framework and MySQL database. The system is designed for user to find companion when planning to travel, watch movie or have dinner. Google API is invoked to provide location info and recommended path is computed via Minimum Spanning Tree and Clustering algorithms.
+
+
+The screenshot of website:
+
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig1.png)

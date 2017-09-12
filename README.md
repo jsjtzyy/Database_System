@@ -9,3 +9,8 @@ Description:
 The screenshot of website:
 
 ![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig1.png)
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig2.png)
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig3.png)
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig4.png)
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig5.png)
+![alt text](https://github.com/jsjtzyy/Database_System/blob/master/fig6.png)
